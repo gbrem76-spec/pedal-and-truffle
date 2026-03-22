@@ -1,0 +1,95 @@
+PEDAL & TRUFFLE — Website Project Notes
+========================================
+Built: March 2026
+
+BUSINESS
+--------
+Name:    Pedal & Truffle
+Type:    Self-guided e-bike tours, Southern Tablelands NSW
+Route:   Bungendore → Braidwood → Mongarlowe → Nowra (~160km, 2 days)
+Stay:    Charley's Forest Truffles, Mongarlowe (overnight, dinner & breakfast included)
+Contact: hello@pedal-and-truffle.com.au | +61 400 000 000 (placeholder)
+ABN:     Pending
+
+PRICING
+-------
+Classic Tour (Twin Share):  $595 per person
+Private Tour:               $895 per person
+Sydney Return Train Add-on: $150 per person (optional)
+
+WEBSITE FILE
+------------
+Main file: index.html (root of ATB Website folder)
+Open in any browser to preview.
+
+FOLDER STRUCTURE
+----------------
+Atb Website/
+├── index.html              ← Main website (edit this)
+├── PROJECT_NOTES.txt       ← This file
+├── images/
+│   ├── gallery/            ← Background/gallery images (OIP*.jpg, 2.jpg, download.jpg)
+│   └── photos/             ← Truffle farm JPG photos + HEIC iPhone shots
+├── At Bunz/                ← Original brand project files (logos, old HTML)
+└── video-frames/           ← Empty (reserved for video)
+
+BRAND COLOURS
+-------------
+Truffle Dark:  #2c1f12
+Gold:          #c49a3c
+Gold Pale:     #e8cc80
+Parchment:     #ede6d6
+Warm White:    #faf8f4
+
+FONTS (Google Fonts)
+--------------------
+Headings:  Playfair Display
+Body:      EB Garamond
+UI/Labels: Jost
+
+WEBSITE SECTIONS (in order)
+----------------------------
+1. Hero          — Attack-of-the-Buns-Australia_9.jpg (fades to black)
+2. Stats Strip   — Black banner: 160km+, 2 days, 1 night, 100% e-bikes, 0 experience
+3. Image Strip   — 5 local JPG images
+4. The Experience — Attack-of-the-Buns-Australia_21.jpg
+5. The Route     — 4 stops: Bungendore → Braidwood → Mongarlowe → Nowra
+6. Map           — Google Maps embed centred on Mongarlowe + route stop list
+7. Overnight Stay — Charley's Forest Truffles (currently: HNWS5800.JPG — swap as needed)
+8. What's Included — E-Bikes, GPS Route Pack, Accommodation & Dinner
+9. Gallery       — 16-cell mosaic using all local images
+10. Pricing       — Classic $595 / Private $895 + $150 train add-on
+11. Book          — Email/phone CTA
+12. FAQ           — 6 expandable questions
+13. Footer
+
+PHOTOS AVAILABLE (images/photos/)
+----------------------------------
+JPG (browser-ready):
+  HNWS5800.JPG   ← Currently used in Stay section
+  CJJT7624.JPG
+  CWJV4964.JPG
+  DZALE2544.JPG
+  FAPJ0442.JPG
+  IONV0451.JPG
+  ITAW5253.JPG
+  NSZL7738.JPG
+  YESD5547.JPG
+  IMG_4602.jpg
+  IMG_4603.jpg
+
+HEIC (need conversion before use in browser):
+  IMG_4202.HEIC
+  IMG_4886.HEIC
+  IMG_5037.HEIC   ← User selected for Stay section (needs converting)
+  IMG_5049.HEIC
+  IMG_E4974.HEIC
+
+TO DO
+-----
+- Convert HEIC photos to JPG for web use (use iPhone Photos export or online converter)
+- Replace placeholder phone number: +61 400 000 000
+- Register domain name
+- Confirm ABN
+- Update pricing if needed
+- Add real email address

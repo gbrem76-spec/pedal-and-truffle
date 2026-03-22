@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedal & Truffle — Photo Sources</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16110c;--truffle:#2c1f12;--gold:#c49a3c;--gold-pale:#e8cc80;--parchment:#ede6d6;--warm-white:#faf8f4;--mist:#9a8878;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Jost",sans-serif;background:var(--ink);color:var(--parchment);}
+header{text-align:center;padding:60px 40px 40px;border-bottom:1px solid rgba(196,154,60,.15);}
+.eyebrow{font-size:.52rem;font-weight:200;letter-spacing:.48em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px;}
+h1{font-family:"Playfair Display",serif;font-size:2.4rem;font-weight:400;color:var(--warm-white);}
+h1 em{font-style:italic;color:var(--gold-pale);}
+.sub{font-size:.62rem;font-weight:200;letter-spacing:.2em;text-transform:uppercase;color:rgba(230,220,200,.35);margin-top:10px;}
+.note{background:rgba(196,154,60,.08);border:1px solid rgba(196,154,60,.2);border-left:3px solid var(--gold);padding:16px 24px;margin:32px 60px;font-size:.82rem;line-height:1.7;color:rgba(230,220,200,.65);}
+.note strong{color:var(--gold-pale);}
+/* Location sections */
+.location{padding:52px 60px;border-bottom:1px solid rgba(196,154,60,.08);}
+.location:last-child{border-bottom:none;}
+.loc-header{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;}
+.loc-num{font-family:"Playfair Display",serif;font-size:1.8rem;color:rgba(196,154,60,.25);}
+.loc-name{font-family:"Playfair Display",serif;font-size:1.6rem;font-style:italic;color:var(--gold-pale);}
+.loc-tag{font-size:.5rem;font-weight:200;letter-spacing:.3em;text-transform:uppercase;color:var(--mist);}
+.photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px;}
+.photo-card{position:relative;overflow:hidden;background:var(--truffle);border:1px solid rgba(196,154,60,.1);}
+.photo-card img{width:100%;height:200px;object-fit:cover;display:block;transition:transform .5s ease;}
+.photo-card:hover img{transform:scale(1.05);}
+.photo-card .photo-error{width:100%;height:200px;display:flex;align-items:center;justify-content:center;background:#1a120a;font-size:.6rem;color:rgba(230,220,200,.3);letter-spacing:.15em;text-transform:uppercase;}
+.photo-info{padding:14px 16px;background:rgba(22,17,12,.6);}
+.photo-label{font-size:.58rem;font-weight:300;letter-spacing:.12em;color:var(--gold-pale);display:block;margin-bottom:4px;}
+.photo-source{font-size:.52rem;font-weight:200;letter-spacing:.1em;color:rgba(230,220,200,.4);display:block;margin-bottom:8px;}
+.photo-url{font-family:monospace;font-size:.48rem;color:rgba(196,154,60,.55);word-break:break-all;line-height:1.5;display:block;cursor:pointer;transition:color .2s;}
+.photo-url:hover{color:var(--gold);}
+.status-badge{display:inline-block;font-size:.44rem;letter-spacing:.15em;text-transform:uppercase;padding:3px 8px;border-radius:2px;margin-top:6px;}
+.status-confirmed{background:rgba(40,120,60,.3);color:#80e89a;border:1px solid rgba(40,120,60,.4);}
+.status-likely{background:rgba(196,154,60,.15);color:var(--gold-pale);border:1px solid rgba(196,154,60,.25);}
+.status-social{background:rgba(100,80,160,.2);color:#c0b0e8;border:1px solid rgba(100,80,160,.3);}
+/* Social section */
+.social-block{margin-top:24px;padding:20px 24px;background:rgba(196,154,60,.05);border:1px solid rgba(196,154,60,.12);}
+.social-title{font-size:.54rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:block;}
+.social-links{display:flex;flex-wrap:wrap;gap:10px;}
+.social-link{font-size:.56rem;letter-spacing:.1em;color:rgba(230,220,200,.5);text-decoration:none;border:1px solid rgba(196,154,60,.2);padding:5px 12px;transition:all .25s;}
+.social-link:hover{border-color:var(--gold);color:var(--gold);}
+/* Key for website section */
+.website-key{background:var(--truffle);margin:0 60px 40px;padding:24px 32px;}
+.wk-title{font-family:"Playfair Display",serif;font-style:italic;font-size:1.1rem;color:var(--gold-pale);margin-bottom:16px;}
+.wk-row{display:flex;align-items:flex-start;gap:16px;padding:10px 0;border-bottom:1px solid rgba(196,154,60,.1);}
+.wk-row:last-child{border-bottom:none;}
+.wk-section{font-size:.54rem;font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);min-width:160px;}
+.wk-url{font-family:monospace;font-size:.52rem;color:rgba(230,220,200,.55);word-break:break-all;line-height:1.5;}
+footer{text-align:center;padding:40px;border-top:1px solid rgba(196,154,60,.1);}
+footer p{font-family:"Playfair Display",serif;font-style:italic;font-size:.9rem;color:rgba(196,154,60,.35);}
+@media(max-width:900px){.photos-grid{grid-template-columns:1fr 1fr;}.location{padding:40px 24px;}.note{margin:24px;}.website-key{margin:0 24px 32px;}}
+@media(max-width:580px){.photos-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="eyebrow">Photo Research Report</span>
+  <h1>Pedal <em>&</em> Truffle</h1>
+  <p class="sub">Image Sources · 7 Locations · For Website Use</p>
+</header>
+
+<div class="note">
+  <strong>How to use this document:</strong> This is your image sourcing reference. Green badges = confirmed embeddable URLs. Gold badges = likely working (Unsplash CDN). Purple badges = social media sources to browse manually. Copy any URL below and paste it into the website HTML to replace placeholder images. For real ownership, always check licensing before commercial use — Wikimedia Commons images are Creative Commons, Unsplash images are free for commercial use.
+</div>
+
+<!-- KEY FOR WEBSITE -->
+<div class="website-key" style="margin-top:40px;">
+  <div class="wk-title">Current Website Image Slots — Where to Drop Replacements</div>
+  <div class="wk-row">
+    <span class="wk-section">Hero Background</span>
+    <span class="wk-url">Replace URL in .hero-bg background-image — use a dramatic gravel road or tablelands landscape</span>
+  </div>
+  <div class="wk-row">
+    <span class="wk-section">Experience Section</span>
+    <span class="wk-url">Replace URL in .exp-visual-img background-image — use a cyclist on gravel road photo</span>
+  </div>
+  <div class="wk-row">
+    <span class="wk-section">Stay Section</span>
+    <span class="wk-url">Replace URL in .stay-visual-img background-image — use Mongarlowe or rural NSW farmstead photo</span>
+  </div>
+</div>
+
+<!-- ══ 1. ATTACK OF THE BUNS ══ -->
+<div class="location">
+  <div class="loc-header">
+    <span class="loc-num">01</span>
+    <span class="loc-name">Attack of the Buns</span>
+    <span class="loc-tag">Cycling Route · Bungendore to Nowra</span>
+  </div>
+  <p style="font-size:.82rem;color:rgba(230,220,200,.5);line-height:1.7;max-width:700px;">The most authentic photos of this route live on Instagram and cyclist blogs. Direct image hosting is restricted on most cycling sites. Best approach: contact the route creator directly.</p>
+  <div class="social-block" style="margin-top:20px;">
+    <span class="social-title">Best Social & Blog Sources — Browse These Manually</span>
+    <div class="social-links">
+      <a class="social-link" href="https://instagram.com/endless_cycle" target="_blank">Instagram @endless_cycle (Route Creator)</a>
+      <a class="social-link" href="https://www.instagram.com/explore/tags/attackofthebuns/" target="_blank">#attackofthebuns on Instagram</a>
+      <a class="social-link" href="https://bikepacking.com/routes/attack-of-the-buns/" target="_blank">Bikepacking.com Gallery</a>
+      <a class="social-link" href="https://weareexplorers.co/attack-of-the-buns-bikepacking-bungendore-nsw/" target="_blank">We Are Explorers Article</a>
+      <a class="social-link" href="https://escapeawhile.com/attack-of-the-buns/" target="_blank">Escape Awhile Blog</a>
+    </div>
+  </div>
+  <div class="photos-grid">
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-a3bQOBdZXAQ?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Cyclists on gravel">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Cyclists on Gravel Road · Dramatic Sky</span>
+        <span class="photo-source">Unsplash / Getty Images — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-a3bQOBdZXAQ?w=1600&q=80')">https://images.unsplash.com/photo-a3bQOBdZXAQ?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-y9cnff1yDag?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Couple cycling">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Couple Riding on Dirt Road</span>
+        <span class="photo-source">Unsplash / Brin Gummey — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-y9cnff1yDag?w=1600&q=80')">https://images.unsplash.com/photo-y9cnff1yDag?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-pe6_dJGx6ZI?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Winding dirt road forest">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Winding Dirt Road Through Forest · Australia</span>
+        <span class="photo-source">Unsplash / Benjamin Ashton — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-pe6_dJGx6ZI?w=1600&q=80')">https://images.unsplash.com/photo-pe6_dJGx6ZI?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 2. BRAIDWOOD ══ -->
+<div class="location">
+  <div class="loc-header">
+    <span class="loc-num">02</span>
+    <span class="loc-name">Braidwood</span>
+    <span class="loc-tag">Heritage Town · Southern Tablelands NSW</span>
+  </div>
+  <div class="photos-grid">
+    <div class="photo-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/BraidwoodCourthouse.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Braidwood Courthouse">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Braidwood Courthouse · Heritage Building</span>
+        <span class="photo-source">Wikimedia Commons — Creative Commons / Public Domain</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://upload.wikimedia.org/wikipedia/commons/5/5a/BraidwoodCourthouse.JPG')">https://upload.wikimedia.org/wikipedia/commons/5/5a/BraidwoodCourthouse.JPG · (click to copy)</span>
+        <span class="status-badge status-confirmed">Confirmed Free</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-wGIyghfT9z4?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Dirt road green field">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Dirt Road · Green Tablelands Landscape</span>
+        <span class="photo-source">Unsplash — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-wGIyghfT9z4?w=1600&q=80')">https://images.unsplash.com/photo-wGIyghfT9z4?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <div class="photo-info" style="padding:20px;">
+        <span class="photo-label">More Braidwood Photos</span>
+        <span class="photo-source" style="margin-top:8px;display:block;">Browse manually for best selection:</span>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+          <a href="https://www.instagram.com/braidwood2622/" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ @braidwood2622 on Instagram (141 posts)</a>
+          <a href="https://www.alamy.com/stock-photo/braidwood-nsw.html" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Alamy Stock — Braidwood NSW</a>
+          <a href="https://commons.wikimedia.org/wiki/Category:Braidwood,_New_South_Wales" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Wikimedia Commons — Braidwood Category</a>
+        </div>
+        <span class="status-badge status-social" style="margin-top:12px;">Social Sources</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 3. MONGARLOWE ══ -->
+<div class="location">
+  <div class="loc-header">
+    <span class="loc-num">03</span>
+    <span class="loc-name">Mongarlowe</span>
+    <span class="loc-tag">Village · Home of Charley's Forest Truffles</span>
+  </div>
+  <div class="photos-grid">
+    <div class="photo-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Mongarlowe_-_Bridge_over_Mongarlowe_River_%28Jan_2021%29.jpg/1280px-Mongarlowe_-_Bridge_over_Mongarlowe_River_%28Jan_2021%29.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Mongarlowe Bridge">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Bridge Over Mongarlowe River</span>
+        <span class="photo-source">Wikimedia Commons — Creative Commons / Jan 2021</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Mongarlowe_-_Bridge_over_Mongarlowe_River_%28Jan_2021%29.jpg/1280px-Mongarlowe_-_Bridge_over_Mongarlowe_River_%28Jan_2021%29.jpg')">https://upload.wikimedia.org/…/Mongarlowe_River.jpg · (click to copy)</span>
+        <span class="status-badge status-confirmed">Confirmed Free</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/House_in_Mongarlowe%2C_New_South_Wales.jpg/1280px-House_in_Mongarlowe%2C_New_South_Wales.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Mongarlowe House">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Historic House · Mongarlowe Village</span>
+        <span class="photo-source">Wikimedia Commons — Creative Commons</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/House_in_Mongarlowe%2C_New_South_Wales.jpg/1280px-House_in_Mongarlowe%2C_New_South_Wales.jpg')">https://upload.wikimedia.org/…/House_in_Mongarlowe.jpg · (click to copy)</span>
+        <span class="status-badge status-confirmed">Confirmed Free</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-ulq3GvvGRmk?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Rural dirt road fence">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Rural Dirt Road with Timber Fence</span>
+        <span class="photo-source">Unsplash — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-ulq3GvvGRmk?w=1600&q=80')">https://images.unsplash.com/photo-ulq3GvvGRmk?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 4. NOWRA ══ -->
+<div class="location">
+  <div class="loc-header">
+    <span class="loc-num">04</span>
+    <span class="loc-name">Nowra</span>
+    <span class="loc-tag">Shoalhaven River · South Coast NSW · Tour Finish</span>
+  </div>
+  <div class="photos-grid">
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-OYGO50LHFA4?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Aerial road through trees">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Aerial View — Road Through Trees (South Coast style)</span>
+        <span class="photo-source">Unsplash — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-OYGO50LHFA4?w=1600&q=80')">https://images.unsplash.com/photo-OYGO50LHFA4?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-U3lV0oAPnE8?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Kangaroo in green field">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Kangaroo in Lush Green Field · NSW Wildlife</span>
+        <span class="photo-source">Unsplash — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-U3lV0oAPnE8?w=1600&q=80')">https://images.unsplash.com/photo-U3lV0oAPnE8?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <div class="photo-info" style="padding:20px;">
+        <span class="photo-label">More Nowra / Shoalhaven Photos</span>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+          <a href="https://www.flickr.com/photos/visitshoalhaven/4621057180" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Flickr: Nowra Hanging Rock Lookout (Visit Shoalhaven)</a>
+          <a href="https://www.flickr.com/photos/visitshoalhaven/4620441161" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Flickr: Nowra Bridge over Shoalhaven River</a>
+          <a href="https://www.shoalhaven.com/cycling-and-mountain-biking/" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Shoalhaven.com Cycling Gallery</a>
+          <a href="https://commons.wikimedia.org/wiki/Category:Nowra,_New_South_Wales" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Wikimedia Commons — Nowra Category</a>
+        </div>
+        <span class="status-badge status-social" style="margin-top:12px;">Manual Browse</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 5. BUDAWANG NATIONAL PARK ══ -->
+<div class="location">
+  <div class="loc-header">
+    <span class="loc-num">05</span>
+    <span class="loc-name">Budawang National Park</span>
+    <span class="loc-tag">Wilderness · Sandstone Cliffs · Tallaganda Region</span>
+  </div>
+  <div class="photos-grid">
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-Uha6ogFcuto?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Dirt road forest">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Dirt Road in Middle of Dense Forest</span>
+        <span class="photo-source">Unsplash / Jackie Alexander — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-Uha6ogFcuto?w=1600&q=80')">https://images.unsplash.com/photo-Uha6ogFcuto?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-AmBS9frh9qg?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Waterfall rocky mountain">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Waterfall on Rocky Sandstone Mountain</span>
+        <span class="photo-source">Unsplash — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-AmBS9frh9qg?w=1600&q=80')">https://images.unsplash.com/photo-AmBS9frh9qg?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <div class="photo-info" style="padding:20px;">
+        <span class="photo-label">Best Source for Authentic Budawangs Shots</span>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+          <a href="https://commons.wikimedia.org/wiki/Category:Budawang_National_Park" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Wikimedia Commons: 198 Budawang Park files</a>
+          <a href="https://www.flickr.com/photos/garratt3/albums/72157632980770463/" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Flickr: Scenic Rim &amp; Monolith Valley album</a>
+          <a href="https://trackslesstravelled.com/the-castle-hike-budawangs/" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Tracks Less Travelled — The Castle</a>
+          <a href="https://www.instagram.com/explore/tags/budawangs/" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ #budawangs on Instagram</a>
+        </div>
+        <span class="status-badge status-social" style="margin-top:12px;">198 Free Images Available</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 6. MORTON NATIONAL PARK ══ -->
+<div class="location">
+  <div class="loc-header">
+    <span class="loc-num">06</span>
+    <span class="loc-name">Morton National Park</span>
+    <span class="loc-tag">Gorges · Escarpment · Rainforest · Southern Highlands</span>
+  </div>
+  <div class="photos-grid">
+    <div class="photo-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Beautiful_Fitzroy_Falls.jpg/960px-Beautiful_Fitzroy_Falls.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Fitzroy Falls">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Fitzroy Falls · Morton National Park</span>
+        <span class="photo-source">Wikimedia Commons — Creative Commons / Public Domain</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Beautiful_Fitzroy_Falls.jpg/960px-Beautiful_Fitzroy_Falls.jpg')">https://upload.wikimedia.org/…/Beautiful_Fitzroy_Falls.jpg · (click to copy)</span>
+        <span class="status-badge status-confirmed">Confirmed Free</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/CSIRO_ScienceImage_4650_Fitzroy_Falls_near_Moss_Vale_NSW_1998.jpg/960px-CSIRO_ScienceImage_4650_Fitzroy_Falls_near_Moss_Vale_NSW_1998.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Fitzroy Falls CSIRO">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Fitzroy Falls &amp; Gorge · Aerial View 1998</span>
+        <span class="photo-source">Wikimedia / CSIRO — Public Domain</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/CSIRO_ScienceImage_4650_Fitzroy_Falls_near_Moss_Vale_NSW_1998.jpg/960px-CSIRO_ScienceImage_4650_Fitzroy_Falls_near_Moss_Vale_NSW_1998.jpg')">https://upload.wikimedia.org/…/CSIRO_Fitzroy_Falls.jpg · (click to copy)</span>
+        <span class="status-badge status-confirmed">Confirmed Free</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <div class="photo-info" style="padding:20px;">
+        <span class="photo-label">More Morton National Park</span>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+          <a href="https://commons.wikimedia.org/wiki/Category:Fitzroy_Falls" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ Wikimedia: Fitzroy Falls Category</a>
+          <a href="https://www.nationalparks.nsw.gov.au/visit-a-park/parks/morton-national-park" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ NSW National Parks Official</a>
+          <a href="https://www.instagram.com/explore/tags/mortonnationalpark/" target="_blank" style="font-size:.54rem;color:var(--gold);text-decoration:none;">→ #mortonnationalpark on Instagram</a>
+        </div>
+        <span class="status-badge status-social" style="margin-top:12px;">Manual Browse</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 7. TIANJARA FALLS (Tanagera Falls) ══ -->
+<div class="location">
+  <div class="loc-header">
+    <span class="loc-num">07</span>
+    <span class="loc-name">Tianjara Falls</span>
+    <span class="loc-tag">Correct spelling of "Tanagera Falls" · 91m Waterfall · Morton National Park</span>
+  </div>
+  <p style="font-size:.8rem;color:var(--gold-pale);padding:0 0 16px;font-family:'Playfair Display',serif;font-style:italic;">Note: "Tanagera Falls" = Tianjara Falls — confirmed. Located in Morton National Park near Nowra. 91 metres high.</p>
+  <div class="photos-grid">
+    <div class="photo-card">
+      <img src="https://www.shoalhaven.com/wp-content/uploads/2021/05/tianjara-falls.jpeg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Tianjara Falls">
+      <div class="photo-error" style="display:none;">Image may require direct browser view</div>
+      <div class="photo-info">
+        <span class="photo-label">Tianjara Falls · 91m Drop · Aerial View</span>
+        <span class="photo-source">Shoalhaven Tourism — Check licensing before commercial use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://www.shoalhaven.com/wp-content/uploads/2021/05/tianjara-falls.jpeg')">https://www.shoalhaven.com/wp-content/uploads/2021/05/tianjara-falls.jpeg · (click to copy)</span>
+        <span class="status-badge status-likely">Tourism Site</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://www.shoalhaven.com/wp-content/uploads/2021/05/fitzroy-falls.jpeg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Fitzroy Falls Shoalhaven">
+      <div class="photo-error" style="display:none;">Image may require direct browser view</div>
+      <div class="photo-info">
+        <span class="photo-label">Fitzroy Falls · Shoalhaven Tourism Photo</span>
+        <span class="photo-source">Shoalhaven Tourism — Check licensing before commercial use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://www.shoalhaven.com/wp-content/uploads/2021/05/fitzroy-falls.jpeg')">https://www.shoalhaven.com/wp-content/uploads/2021/05/fitzroy-falls.jpeg · (click to copy)</span>
+        <span class="status-badge status-likely">Tourism Site</span>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://images.unsplash.com/photo-7sQis1kcLj0?w=800&q=80" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="Stream in nature">
+      <div class="photo-error" style="display:none;">Image Preview</div>
+      <div class="photo-info">
+        <span class="photo-label">Stream Through Gorge Landscape</span>
+        <span class="photo-source">Unsplash — Free Commercial Use</span>
+        <span class="photo-url" onclick="navigator.clipboard.writeText('https://images.unsplash.com/photo-7sQis1kcLj0?w=1600&q=80')">https://images.unsplash.com/photo-7sQis1kcLj0?w=1600&q=80 · (click to copy)</span>
+        <span class="status-badge status-likely">Unsplash CDN</span>
+      </div>
+    </div>
+  </div>
+  <div class="social-block" style="margin-top:20px;">
+    <span class="social-title">Additional Tianjara Falls Sources</span>
+    <div class="social-links">
+      <a class="social-link" href="https://www.shoalhaven.com/blog/chasing-waterfalls-with-south-coast-kids/" target="_blank">Shoalhaven Waterfalls Blog Post</a>
+      <a class="social-link" href="https://www.instagram.com/explore/tags/tianjarafalls/" target="_blank">#tianjarafalls Instagram</a>
+      <a class="social-link" href="https://www.nationalparks.nsw.gov.au/things-to-do/walking-tracks/tianjara-falls-track" target="_blank">NSW National Parks — Tianjara Track</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Pedal & Truffle — Photo Reference Document · For Website Production Use</p>
+  <p style="font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(230,220,200,.2);margin-top:8px;">Always verify licensing before commercial publication · Wikimedia Commons = Free · Unsplash = Free Commercial · Tourism sites = contact for rights</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:nswtrains.fandom.com)",
+      "WebFetch(domain:railmaps.com.au)",
+      "Read(//c/Users/Manus/Desktop/**)",
+      "WebFetch(domain:www.charleysforesttruffles.com.au)",
+      "WebFetch(domain:img1.wsimg.com)",
+      "Bash(mv \"OIP.webp\" \"OIP \\(1\\).webp\" \"OIP \\(2\\).webp\" \"OIP \\(3\\).webp\" \"OIP \\(4\\).webp\" \"OIP \\(5\\).webp\" \"OIP \\(6\\).webp\" \"OIP \\(7\\).webp\" \"OIP \\(8\\).webp\" \"OIP \\(9\\).webp\" \"OIP \\(10\\).webp\" \"OIP \\(11\\).webp\" \"2.webp\" \"download.webp\" images/gallery/)",
+      "Bash(mv \"IMG_4202.HEIC\" \"IMG_4886.HEIC\" \"IMG_5037.HEIC\" \"IMG_5049.HEIC\" \"IMG_E4974.HEIC\" images/photos/)",
+      "Bash(python3 -c \"import PIL\")",
+      "Bash(python3 -c \"from PIL import Image; print\\(''PIL version:'', Image.__version__\\)\")",
+      "Bash(python3.exe -c \"from PIL import Image; print\\(''ok''\\)\")",
+      "Bash(py -3 -c \"from PIL import Image; print\\(''ok''\\)\")",
+      "Bash(py -c \"from PIL import Image; print\\(''ok''\\)\")",
+      "Bash(where python:*)",
+      "Bash(where python3:*)",
+      "Bash(where py:*)",
+      "Bash(where node:*)",
+      "Bash(powershell.exe -Command \":*)",
+      "Bash(winget install:*)",
+      "Bash(magick --version)",
+      "Bash(convert --version)",
+      "Bash(npm --version)",
+      "Bash(powershell.exe -Command \"Add-Type -AssemblyName System.Drawing; $img = [System.Drawing.Image]::FromFile\\(''C:\\\\Users\\\\Manus\\\\Desktop\\\\Atb Website\\\\images\\\\gallery\\\\2.webp''\\); Write-Host ''Loaded:'' $img.Width $img.Height\")",
+      "Bash(powershell.exe -NoProfile -Command \":*)",
+      "Bash(winget search:*)",
+      "Bash(export PATH=\"/c/Program Files/nodejs:$PATH\")",
+      "Bash(npm install:*)"
+    ]
+  }
+}

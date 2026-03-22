@@ -1,0 +1,5 @@
+node_modules/
+database/bookings.db
+.env
+*.env
+video-frames/

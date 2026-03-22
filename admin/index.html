@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedal & Truffle — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --truffle:#2c1f12; --bark:#4a3522; --soil:#6b4f35; --mist:#9a8878;
+  --gold:#c49a3c; --gold-pale:#e8cc80; --parchment:#ede6d6; --warm-white:#faf8f4;
+  --ink:#16110c; --border:rgba(196,154,60,.2);
+  --green:#2d6a4f; --red:#c0392b; --blue:#2980b9;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Jost",sans-serif;background:#f0ece4;color:var(--ink);min-height:100vh;}
+
+/* ── Login ── */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--truffle);}
+.login-box{background:#fff;padding:48px 44px;width:360px;border-top:3px solid var(--gold);}
+.login-box h1{font-family:"Playfair Display",serif;font-size:1.5rem;color:var(--truffle);margin-bottom:6px;}
+.login-box p{font-size:.7rem;font-weight:200;letter-spacing:.15em;text-transform:uppercase;color:var(--mist);margin-bottom:28px;}
+.login-box input{width:100%;padding:11px 14px;border:1px solid var(--border);font-family:"Jost",sans-serif;font-size:.85rem;margin-bottom:12px;outline:none;}
+.login-box input:focus{border-color:var(--gold);}
+.login-box button{width:100%;padding:12px;background:var(--gold);color:#fff;border:none;font-family:"Jost",sans-serif;font-size:.65rem;font-weight:300;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;}
+.login-box button:hover{background:var(--bark);}
+.login-error{color:var(--red);font-size:.72rem;margin-top:8px;display:none;}
+
+/* ── Layout ── */
+#app{display:none;}
+header{background:var(--truffle);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;}
+header h1{font-family:"Playfair Display",serif;font-style:italic;font-size:1.3rem;color:var(--gold-pale);}
+header span{font-size:.55rem;font-weight:200;letter-spacing:.25em;text-transform:uppercase;color:rgba(232,204,128,.4);}
+.logout-btn{font-family:"Jost",sans-serif;font-size:.55rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;background:none;border:1px solid rgba(196,154,60,.3);color:rgba(232,204,128,.5);padding:6px 14px;cursor:pointer;}
+.logout-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+main{max-width:1400px;margin:0 auto;padding:32px;}
+
+/* ── Stats ── */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
+.stat-card{background:#fff;padding:20px 22px;border-left:3px solid var(--gold);}
+.stat-card .num{font-family:"Playfair Display",serif;font-size:2rem;color:var(--gold);display:block;line-height:1;}
+.stat-card .lbl{font-size:.52rem;font-weight:200;letter-spacing:.22em;text-transform:uppercase;color:var(--mist);margin-top:4px;display:block;}
+
+/* ── Filters ── */
+.filters{background:#fff;padding:18px 22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:18px;border:1px solid var(--border);}
+.filters select, .filters input{padding:8px 12px;border:1px solid var(--border);font-family:"Jost",sans-serif;font-size:.75rem;color:var(--ink);outline:none;}
+.filters select:focus, .filters input:focus{border-color:var(--gold);}
+.filters label{font-size:.55rem;font-weight:200;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);}
+.filter-btn{padding:8px 18px;background:var(--gold);color:#fff;border:none;font-family:"Jost",sans-serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;}
+
+/* ── Table ── */
+.table-wrap{background:#fff;border:1px solid var(--border);overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.78rem;}
+thead tr{background:var(--truffle);}
+thead th{padding:12px 16px;text-align:left;font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:rgba(232,204,128,.7);font-size:.55rem;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border);transition:background .2s;}
+tbody tr:hover{background:var(--parchment);}
+tbody td{padding:14px 16px;vertical-align:middle;}
+.td-name{font-weight:400;color:var(--truffle);}
+.td-email{color:var(--mist);font-size:.7rem;}
+.td-total{font-family:"Playfair Display",serif;font-size:1rem;color:var(--gold);}
+.td-date{white-space:nowrap;}
+.td-actions{display:flex;gap:8px;flex-wrap:wrap;}
+
+/* ── Status badges ── */
+.badge{display:inline-block;padding:3px 10px;font-size:.5rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;border-radius:2px;}
+.badge-pending{background:rgba(196,154,60,.12);color:var(--gold);}
+.badge-confirmed{background:rgba(45,106,79,.12);color:var(--green);}
+.badge-cancelled{background:rgba(192,57,43,.1);color:var(--red);}
+
+/* ── Action buttons ── */
+.btn{padding:5px 12px;font-family:"Jost",sans-serif;font-size:.52rem;font-weight:300;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;transition:opacity .2s;}
+.btn:hover{opacity:.8;}
+.btn-confirm{background:var(--green);color:#fff;}
+.btn-cancel{background:var(--red);color:#fff;}
+.btn-pending{background:var(--gold);color:#fff;}
+.btn-delete{background:var(--mist);color:#fff;}
+.btn-notes{background:var(--bark);color:#fff;}
+
+/* ── Modal ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(22,17,12,.7);z-index:999;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;width:480px;max-width:95vw;padding:36px;border-top:3px solid var(--gold);}
+.modal h3{font-family:"Playfair Display",serif;font-size:1.2rem;color:var(--truffle);margin-bottom:16px;}
+.modal textarea{width:100%;height:120px;padding:10px;border:1px solid var(--border);font-family:"Jost",sans-serif;font-size:.8rem;resize:vertical;outline:none;}
+.modal textarea:focus{border-color:var(--gold);}
+.modal-actions{display:flex;gap:10px;margin-top:14px;justify-content:flex-end;}
+.modal-actions button{padding:9px 22px;font-family:"Jost",sans-serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;border:none;cursor:pointer;}
+.btn-save{background:var(--gold);color:#fff;}
+.btn-close-modal{background:var(--parchment);color:var(--truffle);}
+
+/* ── Booking detail expand ── */
+.detail-row{display:none;background:#faf8f4;}
+.detail-row.open{display:table-row;}
+.detail-cell{padding:16px 20px;}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;}
+.detail-item label{display:block;font-size:.5rem;font-weight:200;letter-spacing:.2em;text-transform:uppercase;color:var(--mist);margin-bottom:3px;}
+.detail-item span{font-size:.82rem;color:var(--truffle);}
+.notes-display{margin-top:12px;padding:10px 14px;background:#fff;border:1px solid var(--border);font-size:.78rem;color:var(--soil);min-height:36px;}
+
+.empty-state{text-align:center;padding:60px;color:var(--mist);font-size:.8rem;font-weight:200;letter-spacing:.1em;}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-box">
+    <h1>Pedal &amp; Truffle</h1>
+    <p>Admin Dashboard</p>
+    <input type="password" id="token-input" placeholder="Admin password" onkeydown="if(event.key==='Enter')login()">
+    <button onclick="login()">Sign In</button>
+    <p class="login-error" id="login-error">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<!-- ── APP ── -->
+<div id="app">
+  <header>
+    <div>
+      <h1>Pedal &amp; Truffle</h1>
+      <span>Booking Administration</span>
+    </div>
+    <button class="logout-btn" onclick="logout()">Sign Out</button>
+  </header>
+
+  <main>
+    <!-- Stats -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card"><span class="num" id="s-total">—</span><span class="lbl">Total Bookings</span></div>
+      <div class="stat-card"><span class="num" id="s-confirmed">—</span><span class="lbl">Confirmed</span></div>
+      <div class="stat-card"><span class="num" id="s-pending">—</span><span class="lbl">Pending</span></div>
+      <div class="stat-card"><span class="num" id="s-guests">—</span><span class="lbl">Total Guests</span></div>
+      <div class="stat-card"><span class="num" id="s-revenue">—</span><span class="lbl">Revenue</span></div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div>
+        <label>Status</label>
+        <select id="f-status">
+          <option value="">All</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div>
+        <label>From</label>
+        <input type="date" id="f-from">
+      </div>
+      <div>
+        <label>To</label>
+        <input type="date" id="f-to">
+      </div>
+      <button class="filter-btn" onclick="loadBookings()">Filter</button>
+      <button class="filter-btn" style="background:var(--mist);" onclick="clearFilters()">Clear</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date Booked</th>
+            <th>Tour Date</th>
+            <th>Customer</th>
+            <th>Tour</th>
+            <th>Guests</th>
+            <th>Train</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="bookings-body">
+          <tr><td colspan="10" class="empty-state">Loading bookings…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- Notes Modal -->
+<div class="modal-bg" id="notes-modal">
+  <div class="modal">
+    <h3>Internal Notes</h3>
+    <textarea id="notes-text" placeholder="Add notes about this booking…"></textarea>
+    <div class="modal-actions">
+      <button class="btn-close-modal" onclick="closeNotesModal()">Cancel</button>
+      <button class="btn-save" onclick="saveNotes()">Save Notes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API  = '/api/admin';
+let TOKEN  = '';
+let activeNotesId = null;
+
+// ── Auth ──────────────────────────────────────────────
+function login() {
+  TOKEN = document.getElementById('token-input').value.trim();
+  fetch(`${API}/stats`, { headers:{ 'x-admin-token': TOKEN } })
+    .then(r => {
+      if (!r.ok) throw new Error();
+      return r.json();
+    })
+    .then(data => {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      renderStats(data);
+      loadBookings();
+    })
+    .catch(() => {
+      document.getElementById('login-error').style.display = 'block';
+    });
+}
+
+function logout() {
+  TOKEN = '';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('token-input').value = '';
+}
+
+// ── Stats ──────────────────────────────────────────────
+function renderStats(d) {
+  document.getElementById('s-total').textContent     = d.total_bookings || 0;
+  document.getElementById('s-confirmed').textContent = d.confirmed || 0;
+  document.getElementById('s-pending').textContent   = d.pending || 0;
+  document.getElementById('s-guests').textContent    = d.total_guests || 0;
+  document.getElementById('s-revenue').textContent   = d.total_revenue ? '$' + Number(d.total_revenue).toLocaleString() : '$0';
+}
+
+function refreshStats() {
+  fetch(`${API}/stats`, { headers:{ 'x-admin-token': TOKEN } })
+    .then(r => r.json()).then(renderStats);
+}
+
+// ── Bookings table ─────────────────────────────────────
+function loadBookings() {
+  const status = document.getElementById('f-status').value;
+  const from   = document.getElementById('f-from').value;
+  const to     = document.getElementById('f-to').value;
+  let url = `${API}/bookings?`;
+  if (status) url += `status=${status}&`;
+  if (from)   url += `from=${from}&`;
+  if (to)     url += `to=${to}&`;
+
+  fetch(url, { headers:{ 'x-admin-token': TOKEN } })
+    .then(r => r.json())
+    .then(rows => {
+      const tbody = document.getElementById('bookings-body');
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="10" class="empty-state">No bookings found.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map(b => `
+        <tr onclick="toggleDetail(${b.id})" style="cursor:pointer;">
+          <td>#${b.id}</td>
+          <td class="td-date">${fmtDate(b.created_at)}</td>
+          <td class="td-date">${b.tour_date}</td>
+          <td>
+            <div class="td-name">${b.name}</div>
+            <div class="td-email">${b.email}</div>
+          </td>
+          <td>${b.tour_type === 'classic' ? 'Classic' : 'Private'}</td>
+          <td>${b.guests}</td>
+          <td>${b.train_addon ? '✓' : '—'}</td>
+          <td class="td-total">$${Number(b.total_price).toLocaleString()}</td>
+          <td><span class="badge badge-${b.status}">${b.status}</span></td>
+          <td onclick="event.stopPropagation()">
+            <div class="td-actions">
+              ${b.status !== 'confirmed' ? `<button class="btn btn-confirm" onclick="setStatus(${b.id},'confirmed')">Confirm</button>` : ''}
+              ${b.status !== 'cancelled' ? `<button class="btn btn-cancel"  onclick="setStatus(${b.id},'cancelled')">Cancel</button>` : ''}
+              ${b.status !== 'pending'   ? `<button class="btn btn-pending" onclick="setStatus(${b.id},'pending')">Pending</button>` : ''}
+              <button class="btn btn-notes" onclick="openNotesModal(${b.id},'${escHtml(b.notes||'')}')">Notes</button>
+            </div>
+          </td>
+        </tr>
+        <tr class="detail-row" id="detail-${b.id}">
+          <td colspan="10" class="detail-cell">
+            <div class="detail-grid">
+              <div class="detail-item"><label>Phone</label><span>${b.phone}</span></div>
+              <div class="detail-item"><label>Tour Price</label><span>$${Number(b.tour_price).toLocaleString()}</span></div>
+              ${b.train_addon ? `<div class="detail-item"><label>Train Price</label><span>$${Number(b.train_price).toLocaleString()}</span></div>` : ''}
+              <div class="detail-item"><label>Special Requests</label><span>${b.requests || '—'}</span></div>
+              <div class="detail-item"><label>Booking ID</label><span>#${b.id}</span></div>
+            </div>
+            ${b.notes ? `<div class="notes-display"><strong style="font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mist);">Notes: </strong>${b.notes}</div>` : ''}
+          </td>
+        </tr>
+      `).join('');
+    });
+}
+
+function toggleDetail(id) {
+  const row = document.getElementById('detail-' + id);
+  row.classList.toggle('open');
+}
+
+function clearFilters() {
+  document.getElementById('f-status').value = '';
+  document.getElementById('f-from').value = '';
+  document.getElementById('f-to').value = '';
+  loadBookings();
+}
+
+// ── Status update ──────────────────────────────────────
+function setStatus(id, status) {
+  fetch(`${API}/bookings/${id}/status`, {
+    method: 'PATCH',
+    headers:{ 'x-admin-token': TOKEN, 'Content-Type':'application/json' },
+    body: JSON.stringify({ status })
+  }).then(() => { loadBookings(); refreshStats(); });
+}
+
+// ── Notes modal ────────────────────────────────────────
+function openNotesModal(id, notes) {
+  activeNotesId = id;
+  document.getElementById('notes-text').value = notes;
+  document.getElementById('notes-modal').classList.add('open');
+}
+function closeNotesModal() {
+  document.getElementById('notes-modal').classList.remove('open');
+  activeNotesId = null;
+}
+function saveNotes() {
+  const notes = document.getElementById('notes-text').value;
+  fetch(`${API}/bookings/${activeNotesId}/notes`, {
+    method: 'PATCH',
+    headers:{ 'x-admin-token': TOKEN, 'Content-Type':'application/json' },
+    body: JSON.stringify({ notes })
+  }).then(() => { closeNotesModal(); loadBookings(); });
+}
+
+// ── Helpers ────────────────────────────────────────────
+function fmtDate(dt) {
+  return new Date(dt).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' });
+}
+function escHtml(s) {
+  return s.replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+}
+</script>
+</body>
+</html>

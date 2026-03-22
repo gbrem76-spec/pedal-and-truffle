@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedal & Truffle — E-Bike Tours, Southern Tablelands NSW</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── DESIGN TOKENS ──────────────────────────────── */
+:root {
+  --ink:       #16110c;
+  --truffle:   #2c1f12;
+  --bark:      #4a3522;
+  --soil:      #6b4f35;
+  --mist:      #9a8878;
+  --gold:      #c49a3c;
+  --gold-pale: #e8cc80;
+  --parchment: #ede6d6;
+  --cream:     #f5f0e8;
+  --warm-white:#faf8f4;
+  --border:    rgba(196,154,60,.2);
+  --green-dark:#1a2318;
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:"EB Garamond",Georgia,serif;
+  background:var(--warm-white);
+  color:var(--ink);
+  overflow-x:hidden;
+}
+
+/* Grain texture overlay */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:9990; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:.022; mix-blend-mode:multiply;
+}
+
+/* ── CUSTOM CURSOR ──────────────────────────────── */
+.cursor-dot  { position:fixed; width:7px; height:7px; border-radius:50%; background:var(--gold); pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .2s,height .2s; }
+.cursor-ring { position:fixed; width:34px; height:34px; border-radius:50%; border:1.2px solid var(--gold); pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:transform .18s cubic-bezier(.25,.46,.45,.94); }
+
+/* ── NAVIGATION ─────────────────────────────────── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:500;
+  padding:26px 60px;
+  display:flex; align-items:center; justify-content:space-between;
+  transition:all .45s ease;
+}
+nav.solid {
+  background:rgba(250,248,244,.97); backdrop-filter:blur(14px);
+  padding:14px 60px;
+  border-bottom:1px solid var(--border);
+  box-shadow:0 2px 28px rgba(22,17,12,.06);
+}
+.nav-links { display:flex; gap:32px; list-style:none; align-items:center; }
+.nav-links a {
+  font-family:"Jost",sans-serif; font-size:.6rem; font-weight:300;
+  letter-spacing:.2em; text-transform:uppercase;
+  text-decoration:none; color:rgba(255,255,255,.78); transition:color .3s;
+}
+nav.solid .nav-links a { color:var(--mist); }
+.nav-links a:hover { color:var(--gold) !important; }
+.nav-cta {
+  font-family:"Jost",sans-serif; font-size:.58rem; font-weight:300;
+  letter-spacing:.2em; text-transform:uppercase; text-decoration:none;
+  padding:9px 22px; border:1px solid rgba(255,255,255,.5); color:#fff;
+  transition:all .3s;
+}
+nav.solid .nav-cta { border-color:var(--gold); color:var(--gold); }
+.nav-cta:hover { background:var(--gold) !important; border-color:var(--gold) !important; color:#fff !important; }
+.nav-hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+.nav-hamburger span { display:block; width:24px; height:1.5px; background:rgba(255,255,255,.8); transition:all .3s; }
+nav.solid .nav-hamburger span { background:var(--truffle); }
+
+/* ── HERO ────────────────────────────────────────── */
+#hero {
+  height:100vh; position:relative;
+  display:flex; align-items:center; justify-content:center;
+  overflow:visible; background:#000;
+}
+.hero-bg {
+  position:absolute; inset:0 0 -320px 0;
+  background:
+    url('At%20Bunz/AB%20pics/Attack-of-the-Buns-Australia_9.jpg') center/cover no-repeat;
+  z-index:0;
+}
+.hero-bg::after {
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.75) 0%,rgba(0,0,0,.65) 40%,rgba(0,0,0,.85) 70%,rgba(0,0,0,1) 88%);
+}
+.hero-bg-fallback {
+  position:absolute; inset:0;
+  background:
+    linear-gradient(180deg,rgba(16,11,6,.5) 0%,rgba(16,11,6,.1) 40%,rgba(16,11,6,.78) 100%),
+    url('https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/2023-10-28_Hindmarsh_Lookout%2C_Morton_National_Park.jpg/1200px-2023-10-28_Hindmarsh_Lookout%2C_Morton_National_Park.jpg') center/cover no-repeat;
+  display:none;
+}
+.hero-content {
+  position:relative; z-index:10;
+  text-align:center; color:#fff;
+  padding:0 24px; max-width:960px;
+}
+.hero-eyebrow {
+  font-family:"Jost",sans-serif; font-size:.58rem; font-weight:200;
+  letter-spacing:.5em; text-transform:uppercase; color:var(--gold-pale);
+  margin-bottom:28px; display:block;
+  opacity:0; animation:fadeUp .8s .3s forwards;
+}
+.hero-title {
+  font-family:"Playfair Display",serif;
+  font-size:clamp(3rem,6.5vw,6rem); font-weight:400; line-height:1.06;
+  color:#fff; margin-bottom:18px;
+  opacity:0; animation:fadeUp .9s .55s forwards;
+}
+.hero-title em { font-style:italic; color:var(--gold-pale); }
+.hero-sub {
+  font-family:"Playfair Display",serif; font-style:italic;
+  font-size:clamp(.95rem,1.7vw,1.25rem); color:rgba(255,255,255,.7);
+  line-height:1.65; max-width:680px; margin:0 auto 50px;
+  opacity:0; animation:fadeUp .9s .75s forwards;
+}
+.hero-actions {
+  display:flex; gap:18px; justify-content:center; flex-wrap:wrap;
+  opacity:0; animation:fadeUp .9s .95s forwards;
+}
+.btn-primary {
+  font-family:"Jost",sans-serif; font-size:.62rem; font-weight:300;
+  letter-spacing:.24em; text-transform:uppercase; text-decoration:none;
+  padding:15px 38px; background:var(--gold); color:#fff;
+  display:inline-block; transition:all .3s;
+}
+.btn-primary:hover { background:var(--gold-pale); color:var(--truffle); }
+.btn-ghost {
+  font-family:"Jost",sans-serif; font-size:.62rem; font-weight:300;
+  letter-spacing:.24em; text-transform:uppercase; text-decoration:none;
+  padding:15px 38px; border:1px solid rgba(255,255,255,.5); color:#fff;
+  display:inline-block; transition:all .3s;
+}
+.btn-ghost:hover { background:rgba(255,255,255,.1); border-color:#fff; }
+.hero-scroll {
+  position:absolute; bottom:38px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:9px;
+  opacity:0; animation:fadeUp .8s 1.4s forwards;
+}
+.hero-scroll span {
+  font-family:"Jost",sans-serif; font-size:.48rem; letter-spacing:.35em;
+  text-transform:uppercase; color:rgba(255,255,255,.45);
+}
+.scroll-line {
+  width:1px; height:48px;
+  background:linear-gradient(180deg,rgba(255,255,255,.45),transparent);
+  animation:scrollDrop 2s 2s ease-in-out infinite;
+}
+
+/* ── STATS STRIP ─────────────────────────────────── */
+.stats-strip {
+  background:#000; padding:52px 60px;
+  display:flex; align-items:center; justify-content:center;
+  gap:64px; flex-wrap:wrap;
+  position:relative; z-index:1;
+  /* fade the hero photo into the top of this strip */
+  -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 30%);
+  mask-image:linear-gradient(180deg, transparent 0%, #000 30%);
+}
+.stat { text-align:center; }
+.stat-num {
+  font-family:"Playfair Display",serif; font-size:2.5rem; font-weight:400;
+  color:var(--gold); display:block; line-height:1;
+}
+.stat-label {
+  font-family:"Jost",sans-serif; font-size:.5rem; font-weight:200;
+  letter-spacing:.28em; text-transform:uppercase;
+  color:rgba(230,220,200,.5); margin-top:6px; display:block;
+}
+.stat-div { width:1px; height:48px; background:rgba(196,154,60,.18); }
+
+/* ── SECTIONS ────────────────────────────────────── */
+section { position:relative; }
+.section-pad { padding:108px 60px; }
+.section-label {
+  font-family:"Jost",sans-serif; font-size:.54rem; font-weight:200;
+  letter-spacing:.42em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:14px; display:block;
+}
+.section-heading {
+  font-family:"Playfair Display",serif;
+  font-size:clamp(2rem,3.8vw,3.2rem); font-weight:400; line-height:1.16;
+  color:var(--truffle);
+}
+.section-heading em { font-style:italic; }
+.section-body { font-size:1.1rem; line-height:1.85; color:var(--soil); max-width:620px; }
+.section-body p + p { margin-top:1.15em; }
+
+/* ── LOCAL IMAGES STRIP ──────────────────────────── */
+#image-strip {
+  background:var(--ink); padding:0; overflow:hidden;
+}
+.strip-grid {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  height:320px;
+}
+.strip-cell {
+  overflow:hidden; position:relative;
+}
+.strip-cell img {
+  width:100%; height:100%; object-fit:cover;
+  transition:transform .8s cubic-bezier(.25,.46,.45,.94);
+  filter:brightness(.85) saturate(.9);
+}
+.strip-cell:hover img { transform:scale(1.08); filter:brightness(1) saturate(1.1); }
+.strip-label {
+  position:absolute; bottom:0; left:0; right:0;
+  background:linear-gradient(0deg,rgba(16,11,6,.7) 0%,transparent 100%);
+  padding:12px 14px;
+  font-family:"Jost",sans-serif; font-size:.45rem; font-weight:200;
+  letter-spacing:.22em; text-transform:uppercase; color:rgba(240,230,210,.55);
+  opacity:0; transition:opacity .4s;
+}
+.strip-cell:hover .strip-label { opacity:1; }
+
+/* ── EXPERIENCE ──────────────────────────────────── */
+#experience {
+  display:grid; grid-template-columns:1fr 1fr; min-height:88vh;
+}
+.exp-visual { position:relative; overflow:hidden; min-height:560px; }
+.exp-visual-img {
+  position:absolute; inset:0;
+  background:
+    linear-gradient(180deg,rgba(16,11,6,.08) 0%,rgba(16,11,6,.55) 100%),
+    url('At%20Bunz/AB%20pics/Attack-of-the-Buns-Australia_21.jpg') center/cover no-repeat;
+  transition:transform 8s ease;
+}
+.exp-visual:hover .exp-visual-img { transform:scale(1.04); }
+.exp-quote {
+  position:absolute; bottom:44px; left:38px; right:38px;
+  border-left:2px solid var(--gold); padding-left:18px;
+}
+.exp-quote p {
+  font-family:"Playfair Display",serif; font-style:italic;
+  font-size:1rem; color:rgba(240,230,210,.85); line-height:1.65;
+}
+.exp-quote cite {
+  font-family:"Jost",sans-serif; font-size:.5rem; font-weight:200;
+  letter-spacing:.24em; text-transform:uppercase;
+  color:var(--gold); margin-top:7px; display:block;
+}
+.exp-text {
+  padding:96px 76px; display:flex; flex-direction:column;
+  justify-content:center; gap:26px; background:var(--warm-white);
+}
+.exp-pull {
+  font-family:"Playfair Display",serif; font-style:italic;
+  font-size:1.38rem; color:var(--gold); line-height:1.52;
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  padding:20px 0; margin:4px 0;
+}
+
+/* ── ROUTE ───────────────────────────────────────── */
+#route { background:var(--parchment); }
+.route-inner { max-width:1240px; margin:0 auto; }
+.route-header { text-align:center; max-width:600px; margin:0 auto 72px; }
+.route-steps {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:2px; background:var(--border); border:1px solid var(--border);
+}
+.route-step {
+  background:var(--parchment); padding:44px 32px;
+  position:relative; transition:background .35s,transform .3s;
+}
+.route-step:hover { background:#fff; transform:translateY(-4px); }
+.route-step::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-pale));
+  transform:scaleX(0); transform-origin:left; transition:transform .4s;
+}
+.route-step:hover::before { transform:scaleX(1); }
+.step-num { font-family:"Playfair Display",serif; font-size:3rem; color:var(--border); line-height:1; margin-bottom:6px; }
+.step-town { font-family:"Playfair Display",serif; font-size:1.38rem; color:var(--truffle); line-height:1.2; margin-bottom:4px; }
+.step-town em { font-style:italic; }
+.step-km {
+  font-family:"Jost",sans-serif; font-size:.5rem; font-weight:200;
+  letter-spacing:.28em; text-transform:uppercase; color:var(--mist);
+  margin-bottom:14px; display:block;
+}
+.step-desc { font-size:.92rem; line-height:1.75; color:var(--soil); }
+.step-icon { font-size:1.2rem; margin-bottom:14px; display:block; opacity:.7; }
+.route-step:not(:last-child)::after {
+  content:'→'; position:absolute; right:-14px; top:50%; transform:translateY(-50%);
+  font-family:"Jost",sans-serif; font-size:.8rem; color:var(--gold); z-index:2; opacity:.6;
+}
+
+/* ── MAP ─────────────────────────────────────────── */
+#map { background:var(--ink); }
+.map-layout {
+  display:grid; grid-template-columns:1fr 2fr;
+  min-height:600px;
+}
+.map-info {
+  background:var(--truffle); padding:72px 52px;
+  display:flex; flex-direction:column; justify-content:center; gap:28px;
+}
+.map-info .section-label { color:var(--gold-pale); }
+.map-info .section-heading { color:#fff; font-size:clamp(1.6rem,2.8vw,2.4rem); }
+.map-stops { display:flex; flex-direction:column; gap:0; margin-top:8px; }
+.map-stop {
+  display:flex; align-items:flex-start; gap:16px;
+  padding:16px 0; border-bottom:1px solid rgba(196,154,60,.12);
+  position:relative;
+}
+.map-stop:last-child { border-bottom:none; }
+.map-stop-pin {
+  width:32px; height:32px; border-radius:50%; flex-shrink:0;
+  background:var(--bark); border:1.5px solid var(--gold);
+  display:flex; align-items:center; justify-content:center;
+  font-family:"Jost",sans-serif; font-size:.48rem; font-weight:300;
+  letter-spacing:.06em; color:var(--gold);
+  position:relative; z-index:1;
+}
+.map-stop-pin.overnight {
+  background:var(--gold); color:var(--truffle); border-color:var(--gold-pale);
+  font-size:.38rem;
+}
+.map-stop-line {
+  position:absolute; left:15px; top:48px; bottom:-16px;
+  width:1px; background:rgba(196,154,60,.2);
+}
+.map-stop:last-child .map-stop-line { display:none; }
+.map-stop-text { flex:1; padding-top:4px; }
+.map-stop-town {
+  font-family:"Playfair Display",serif; font-style:italic;
+  font-size:1.05rem; color:#fff; line-height:1.2;
+}
+.map-stop-detail {
+  font-family:"Jost",sans-serif; font-size:.5rem; font-weight:200;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:rgba(230,220,200,.42); margin-top:3px;
+}
+.map-stop-note {
+  font-size:.85rem; color:rgba(230,220,200,.55); margin-top:4px; line-height:1.5;
+}
+.map-cta-link {
+  font-family:"Jost",sans-serif; font-size:.58rem; font-weight:300;
+  letter-spacing:.2em; text-transform:uppercase; text-decoration:none;
+  padding:12px 24px; border:1px solid var(--gold); color:var(--gold);
+  display:inline-block; align-self:flex-start; transition:all .3s; margin-top:8px;
+}
+.map-cta-link:hover { background:var(--gold); color:#fff; }
+.map-embed-wrap {
+  position:relative; overflow:hidden;
+}
+.map-embed-wrap iframe {
+  width:100%; height:100%; min-height:600px;
+  border:0; display:block;
+  filter:contrast(1.05) saturate(.9);
+}
+@media (max-width:900px) {
+  .map-layout { grid-template-columns:1fr; }
+  .map-embed-wrap iframe { min-height:380px; }
+  .map-info { padding:52px 28px; }
+}
+
+/* ── STAY ────────────────────────────────────────── */
+#stay { display:grid; grid-template-columns:1fr 1fr; min-height:72vh; }
+.stay-text {
+  padding:88px 76px; background:var(--truffle);
+  display:flex; flex-direction:column; justify-content:center; gap:24px;
+}
+.stay-text .section-label { color:var(--gold-pale); }
+.stay-text .section-heading { color:#fff; }
+.stay-text .section-body { color:rgba(230,220,200,.72); max-width:100%; }
+.stay-features { display:flex; flex-direction:column; gap:10px; margin-top:6px; }
+.stay-feature {
+  display:flex; align-items:center; gap:13px;
+  font-family:"Jost",sans-serif; font-size:.58rem; font-weight:300;
+  letter-spacing:.15em; text-transform:uppercase; color:rgba(230,220,200,.6);
+}
+.stay-feature::before { content:"◆"; color:var(--gold); font-size:.42rem; flex-shrink:0; }
+.stay-cta {
+  font-family:"Jost",sans-serif; font-size:.6rem; font-weight:300;
+  letter-spacing:.2em; text-transform:uppercase; text-decoration:none;
+  padding:12px 28px; border:1px solid var(--gold); color:var(--gold);
+  display:inline-block; align-self:flex-start; margin-top:8px; transition:all .3s;
+}
+.stay-cta:hover { background:var(--gold); color:#fff; }
+.stay-visual { position:relative; overflow:hidden; }
+.stay-visual-img {
+  position:absolute; inset:0;
+  background:
+    linear-gradient(180deg,rgba(16,11,6,.06) 0%,rgba(16,11,6,.45) 100%),
+    url('images/photos/HNWS5800.JPG') center/cover no-repeat;
+  transition:transform 8s ease;
+}
+.stay-visual:hover .stay-visual-img { transform:scale(1.04); }
+.stay-badge {
+  position:absolute; bottom:40px; right:40px;
+  background:rgba(22,17,12,.85); backdrop-filter:blur(8px);
+  border:1px solid var(--border); padding:22px 28px; text-align:center;
+}
+.stay-badge-name {
+  font-family:"Playfair Display",serif; font-size:1rem; font-style:italic;
+  color:var(--gold-pale); display:block; margin-bottom:4px;
+}
+.stay-badge-sub {
+  font-family:"Jost",sans-serif; font-size:.48rem; font-weight:200;
+  letter-spacing:.3em; text-transform:uppercase; color:rgba(230,220,200,.45);
+}
+
+/* ── INCLUDES ────────────────────────────────────── */
+#includes { background:var(--warm-white); }
+.includes-inner { max-width:1240px; margin:0 auto; }
+.includes-header { text-align:center; max-width:580px; margin:0 auto 68px; }
+.includes-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:2px; background:var(--border); border:1px solid var(--border);
+}
+.include-card {
+  background:var(--warm-white); padding:44px 36px;
+  display:flex; flex-direction:column; gap:16px;
+  position:relative; overflow:hidden; transition:background .38s,transform .3s;
+}
+.include-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-pale));
+  transform:scaleX(0); transform-origin:left; transition:transform .42s;
+}
+.include-card:hover { background:var(--parchment); transform:translateY(-4px); }
+.include-card:hover::before { transform:scaleX(1); }
+.include-icon { font-size:1.6rem; display:block; }
+.include-num { font-family:"Playfair Display",serif; font-size:3rem; color:var(--border); line-height:1; }
+.include-title { font-family:"Playfair Display",serif; font-size:1.38rem; color:var(--truffle); line-height:1.25; }
+.include-title em { font-style:italic; }
+.include-desc { font-size:.91rem; line-height:1.76; color:var(--soil); flex:1; }
+.include-list { list-style:none; display:flex; flex-direction:column; gap:5px; padding-top:12px; border-top:1px solid var(--border); }
+.include-list li {
+  font-family:"Jost",sans-serif; font-size:.56rem; font-weight:300;
+  letter-spacing:.1em; color:var(--mist);
+  display:flex; align-items:center; gap:8px;
+}
+.include-list li::before { content:"—"; color:var(--gold); }
+
+/* ── GALLERY ─────────────────────────────────────── */
+#gallery { background:var(--ink); }
+.gallery-header { text-align:center; padding:80px 60px 48px; }
+.gallery-header .section-label { color:var(--gold); display:block; margin-bottom:14px; }
+.gallery-header .section-heading { color:#fff; }
+.gallery-header p {
+  font-family:"Playfair Display",serif; font-style:italic;
+  font-size:1.05rem; color:rgba(230,220,200,.45);
+  margin-top:14px; max-width:520px; margin-left:auto; margin-right:auto; line-height:1.7;
+}
+.gallery-mosaic {
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-auto-rows:220px;
+  gap:3px; padding:0 3px 3px;
+}
+.gallery-cell { overflow:hidden; position:relative; cursor:pointer; }
+.gallery-cell img {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover;
+  transition:transform .8s cubic-bezier(.25,.46,.45,.94);
+}
+.gallery-cell:hover img { transform:scale(1.07); }
+.gallery-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(0deg,rgba(16,11,6,.75) 0%,transparent 55%);
+  opacity:.3; transition:opacity .4s;
+}
+.gallery-cell:hover .gallery-overlay { opacity:1; }
+.gallery-label {
+  position:absolute; bottom:16px; left:18px; right:18px;
+  font-family:"Jost",sans-serif; font-size:.5rem; font-weight:200;
+  letter-spacing:.26em; text-transform:uppercase; color:rgba(240,230,210,.75);
+  opacity:0; transform:translateY(4px); transition:opacity .4s,transform .4s;
+}
+.gallery-cell:hover .gallery-label { opacity:1; transform:translateY(0); }
+
+/* Gallery layout */
+.g1  { grid-column:1/5;  grid-row:1/3; }
+.g2  { grid-column:5/8;  grid-row:1/2; }
+.g3  { grid-column:8/13; grid-row:1/2; }
+.g4  { grid-column:5/8;  grid-row:2/3; }
+.g5  { grid-column:8/11; grid-row:2/3; }
+.g6  { grid-column:11/13; grid-row:2/3; }
+.g7  { grid-column:1/4;  grid-row:3/4; }
+.g8  { grid-column:4/7;  grid-row:3/4; }
+.g9  { grid-column:7/10; grid-row:3/4; }
+.g10 { grid-column:10/13; grid-row:3/4; }
+.g11 { grid-column:1/6;  grid-row:4/5; }
+.g12 { grid-column:6/9;  grid-row:4/5; }
+.g13 { grid-column:9/13; grid-row:4/5; }
+.g14 { grid-column:1/5;  grid-row:5/6; }
+.g15 { grid-column:5/9;  grid-row:5/6; }
+.g16 { grid-column:9/13; grid-row:5/6; }
+
+/* ── PRICING ─────────────────────────────────────── */
+#pricing { background:var(--parchment); }
+.pricing-inner { max-width:1000px; margin:0 auto; }
+.pricing-header { text-align:center; margin-bottom:64px; }
+.pricing-cards {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:2px; background:var(--border); border:1px solid var(--border);
+}
+.price-card {
+  background:var(--parchment); padding:52px 44px;
+  display:flex; flex-direction:column; gap:18px; transition:background .35s;
+}
+.price-card:hover { background:#fff; }
+.price-card-featured { background:var(--truffle) !important; }
+.price-label {
+  font-family:"Jost",sans-serif; font-size:.52rem; font-weight:200;
+  letter-spacing:.38em; text-transform:uppercase; color:var(--gold);
+}
+.price-label-light { color:var(--gold-pale); }
+.price-name {
+  font-family:"Playfair Display",serif; font-size:1.6rem;
+  font-style:italic; color:var(--truffle);
+}
+.price-name-light { color:#fff; }
+.price-amount { display:flex; align-items:baseline; gap:6px; }
+.price-num {
+  font-family:"Playfair Display",serif; font-size:3.2rem; font-weight:400;
+  color:var(--gold); line-height:1;
+}
+.price-per {
+  font-family:"Jost",sans-serif; font-size:.52rem; font-weight:200;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--mist);
+}
+.price-per-light { color:rgba(230,220,200,.45); }
+.price-divider { height:1px; background:var(--border); }
+.price-divider-light { background:rgba(196,154,60,.18); }
+.price-items { list-style:none; display:flex; flex-direction:column; gap:8px; }
+.price-items li {
+  font-family:"Jost",sans-serif; font-size:.6rem; font-weight:300;
+  letter-spacing:.1em; color:var(--soil);
+  display:flex; align-items:center; gap:10px;
+}
+.price-items li::before { content:"◆"; color:var(--gold); font-size:.4rem; flex-shrink:0; }
+.price-items-light li { color:rgba(230,220,200,.68); }
+.price-cta {
+  font-family:"Jost",sans-serif; font-size:.6rem; font-weight:300;
+  letter-spacing:.2em; text-transform:uppercase; text-decoration:none;
+  padding:14px 28px; border:1px solid var(--gold); color:var(--gold);
+  display:inline-block; align-self:flex-start; margin-top:4px; transition:all .3s;
+}
+.price-cta:hover { background:var(--gold); color:#fff; }
+.price-cta-filled { background:var(--gold); color:#fff !important; }
+.price-cta-filled:hover { background:var(--gold-pale) !important; color:var(--truffle) !important; }
+.price-addon {
+  border:1px solid var(--border); border-radius:2px;
+  padding:14px 16px; display:flex; flex-direction:column; gap:6px;
+  background:rgba(196,154,60,.04);
+}
+.price-addon-label {
+  font-family:"Jost",sans-serif; font-size:.46rem; font-weight:300;
+  letter-spacing:.28em; text-transform:uppercase; color:var(--gold);
+}
+.price-addon-row {
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+}
+.price-addon-name {
+  font-family:"Jost",sans-serif; font-size:.6rem; font-weight:300;
+  letter-spacing:.06em; color:var(--soil);
+}
+.price-addon-price {
+  font-family:"Playfair Display",serif; font-size:1.1rem; color:var(--gold);
+  white-space:nowrap;
+}
+.price-addon-detail {
+  font-family:"Jost",sans-serif; font-size:.52rem; font-weight:200;
+  letter-spacing:.04em; color:var(--mist); line-height:1.55;
+}
+.price-note {
+  text-align:center; margin-top:36px;
+  font-family:"Jost",sans-serif; font-size:.55rem; font-weight:200;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--mist);
+}
+
+/* ── BOOK ─────────────────────────────────────────── */
+#book {
+  background:linear-gradient(160deg,var(--truffle) 0%,var(--green-dark) 50%,var(--ink) 100%);
+  position:relative; overflow:hidden;
+}
+#book::before {
+  content:''; position:absolute; top:-180px; right:-180px;
+  width:640px; height:640px; border-radius:50%;
+  background:radial-gradient(ellipse,rgba(196,154,60,.07) 0%,transparent 70%);
+}
+#book::after {
+  content:''; position:absolute; bottom:-120px; left:-100px;
+  width:480px; height:480px; border-radius:50%;
+  background:radial-gradient(ellipse,rgba(196,154,60,.05) 0%,transparent 70%);
+}
+.book-inner { max-width:780px; margin:0 auto; text-align:center; position:relative; z-index:1; }
+.book-inner .section-heading { color:#fff; }
+.book-sub { font-family:"Playfair Display",serif; font-style:italic; font-size:1.1rem; color:var(--gold-pale); margin:26px 0 38px; line-height:1.65; }
+.book-actions { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.book-contact {
+  display:flex; gap:40px; justify-content:center; flex-wrap:wrap;
+  margin-top:40px; padding-top:36px; border-top:1px solid rgba(196,154,60,.15);
+}
+.book-contact-item { text-align:center; }
+.book-contact-label {
+  font-family:"Jost",sans-serif; font-size:.46rem; font-weight:200;
+  letter-spacing:.32em; text-transform:uppercase; color:rgba(230,220,200,.35);
+  display:block; margin-bottom:6px;
+}
+.book-contact-value {
+  font-family:"Playfair Display",serif; font-style:italic;
+  font-size:1.05rem; color:var(--gold-pale); text-decoration:none;
+}
+.book-contact-value:hover { color:var(--gold); }
+.book-note {
+  font-family:"Jost",sans-serif; font-size:.5rem; font-weight:200;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(230,220,200,.28); margin-top:34px;
+}
+
+/* ── FAQ ──────────────────────────────────────────── */
+#faq { background:var(--warm-white); }
+.faq-inner { max-width:800px; margin:0 auto; }
+.faq-header { text-align:center; margin-bottom:56px; }
+.faq-item { border-bottom:1px solid var(--border); padding:24px 0; cursor:pointer; }
+.faq-question {
+  font-family:"Playfair Display",serif; font-size:1.08rem; color:var(--truffle);
+  display:flex; justify-content:space-between; align-items:center; gap:20px; user-select:none;
+}
+.faq-icon { font-family:"Jost",sans-serif; font-size:1.2rem; color:var(--gold); font-weight:200; flex-shrink:0; transition:transform .3s; }
+.faq-item.open .faq-icon { transform:rotate(45deg); }
+.faq-answer {
+  font-size:1rem; line-height:1.8; color:var(--soil);
+  max-height:0; overflow:hidden; transition:max-height .45s ease,padding .3s;
+}
+.faq-item.open .faq-answer { max-height:220px; padding-top:14px; }
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer { background:var(--ink); padding:76px 60px 36px; }
+.footer-inner {
+  max-width:1200px; margin:0 auto;
+  display:grid; grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:52px; padding-bottom:52px; border-bottom:1px solid rgba(196,154,60,.1);
+}
+.footer-brand p { font-size:.88rem; line-height:1.76; color:rgba(230,220,200,.38); max-width:260px; margin-top:16px; }
+.footer-col-title {
+  font-family:"Jost",sans-serif; font-size:.52rem; font-weight:300;
+  letter-spacing:.3em; text-transform:uppercase; color:var(--gold);
+  margin-bottom:18px; display:block;
+}
+.footer-links { list-style:none; display:flex; flex-direction:column; gap:9px; }
+.footer-links a { font-size:.88rem; color:rgba(230,220,200,.38); text-decoration:none; transition:color .3s; }
+.footer-links a:hover { color:var(--gold); }
+.footer-bottom {
+  max-width:1200px; margin:26px auto 0;
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:12px;
+}
+.footer-copy {
+  font-family:"Jost",sans-serif; font-size:.48rem; font-weight:200;
+  letter-spacing:.14em; color:rgba(230,220,200,.22);
+}
+.footer-tagline { font-family:"Playfair Display",serif; font-style:italic; font-size:.82rem; color:rgba(196,154,60,.35); }
+
+/* ── BOOKING FORM ────────────────────────────────── */
+.bform-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:36px; }
+.bform-full  { grid-column:1/-1; }
+.bform-row   { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+.bform-group { display:flex; flex-direction:column; gap:7px; }
+.bform-label {
+  font-family:"Jost",sans-serif; font-size:.52rem; font-weight:300;
+  letter-spacing:.22em; text-transform:uppercase; color:rgba(230,220,200,.55);
+}
+.bform-checkbox-label {
+  display:flex; align-items:center; gap:10px; cursor:pointer;
+  font-family:"Jost",sans-serif; font-size:.62rem; font-weight:300;
+  letter-spacing:.08em; color:rgba(230,220,200,.7);
+}
+.bform-input {
+  padding:12px 14px; background:rgba(255,255,255,.06);
+  border:1px solid rgba(196,154,60,.25); color:#fff;
+  font-family:"Jost",sans-serif; font-size:.82rem; outline:none;
+  transition:border-color .3s; width:100%;
+}
+.bform-input::placeholder { color:rgba(255,255,255,.25); }
+.bform-input:focus { border-color:var(--gold); background:rgba(255,255,255,.09); }
+.bform-input option { background:var(--truffle); color:#fff; }
+textarea.bform-input { resize:vertical; min-height:90px; }
+.bform-divider { grid-column:1/-1; height:1px; background:rgba(196,154,60,.15); margin:4px 0; }
+.bform-summary {
+  background:rgba(196,154,60,.08); border:1px solid rgba(196,154,60,.2);
+  padding:18px 22px; display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+}
+.bform-summary-label {
+  font-family:"Jost",sans-serif; font-size:.52rem; font-weight:200;
+  letter-spacing:.28em; text-transform:uppercase; color:rgba(230,220,200,.45);
+}
+.bform-summary-price {
+  font-family:"Playfair Display",serif; font-size:2rem; color:var(--gold); line-height:1;
+}
+.bform-summary-note {
+  font-family:"Jost",sans-serif; font-size:.52rem; font-weight:200;
+  letter-spacing:.04em; color:rgba(230,220,200,.3); flex:1; text-align:right;
+}
+.bform-submit {
+  width:100%; padding:16px; background:var(--gold); color:#fff; border:none;
+  font-family:"Jost",sans-serif; font-size:.65rem; font-weight:300;
+  letter-spacing:.24em; text-transform:uppercase; cursor:pointer; transition:all .3s;
+}
+.bform-submit:hover { background:var(--gold-pale); color:var(--truffle); }
+.bform-submit:disabled { opacity:.5; cursor:not-allowed; }
+.bform-error { color:#e07070; font-size:.65rem; font-family:"Jost",sans-serif; margin-top:4px; }
+@media (max-width:900px) {
+  .bform-grid { grid-template-columns:1fr; }
+  .bform-row  { grid-template-columns:1fr; }
+  .bform-full { grid-column:1; }
+  .bform-summary-note { text-align:left; }
+}
+
+/* ── ANIMATIONS ──────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(22px) }
+  to   { opacity:1; transform:translateY(0) }
+}
+@keyframes scrollDrop {
+  0%   { transform:scaleY(0); transform-origin:top; opacity:1 }
+  50%  { transform:scaleY(1); transform-origin:top; opacity:1 }
+  100% { transform:scaleY(1); transform-origin:bottom; opacity:0 }
+}
+.reveal, .reveal-left, .reveal-right {
+  opacity:0; transform:translateY(30px);
+  transition:opacity .85s ease,transform .85s ease;
+}
+.reveal-left  { transform:translateX(-30px); }
+.reveal-right { transform:translateX(30px); }
+.reveal.visible, .reveal-left.visible, .reveal-right.visible {
+  opacity:1; transform:none;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width:1100px) {
+  .gallery-mosaic { grid-template-columns:repeat(6,1fr); grid-auto-rows:180px; }
+  .g1,.g2,.g3,.g4,.g5,.g6,.g7,.g8,.g9,.g10,.g11,.g12,.g13,.g14,.g15,.g16 {
+    grid-column:auto; grid-row:auto;
+  }
+  .g1 { grid-column:1/4; grid-row:1/3; }
+  .g3 { grid-column:4/7; grid-row:1/3; }
+}
+@media (max-width:900px) {
+  nav { padding:20px 24px; }
+  nav.solid { padding:12px 24px; }
+  .nav-links { display:none; }
+  .nav-hamburger { display:flex; }
+  #experience { grid-template-columns:1fr; }
+  .exp-visual { min-height:380px; }
+  .exp-text { padding:56px 32px; }
+  #stay { grid-template-columns:1fr; }
+  .stay-text { padding:56px 32px; }
+  .stay-visual { min-height:360px; }
+  .route-steps { grid-template-columns:1fr 1fr; }
+  .route-step::after { display:none; }
+  .includes-grid { grid-template-columns:1fr; }
+  .pricing-cards { grid-template-columns:1fr; }
+  .footer-inner { grid-template-columns:1fr 1fr; }
+  .section-pad { padding:72px 24px; }
+  .stats-strip { gap:32px; padding:40px 24px; }
+  .stat-div { display:none; }
+  .strip-grid { grid-template-columns:repeat(3,1fr); height:240px; }
+  .gallery-mosaic { grid-template-columns:repeat(2,1fr); grid-auto-rows:180px; }
+  .g1,.g2,.g3,.g4,.g5,.g6,.g7,.g8,.g9,.g10,.g11,.g12,.g13,.g14,.g15,.g16 {
+    grid-column:auto !important; grid-row:auto !important;
+  }
+}
+@media (max-width:580px) {
+  .route-steps { grid-template-columns:1fr; }
+  .footer-inner { grid-template-columns:1fr; }
+  .hero-title { font-size:2.6rem; }
+  .strip-grid { grid-template-columns:repeat(2,1fr); height:200px; }
+  .book-contact { gap:24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ══ NAV ══════════════════════════════════════════ -->
+<nav id="mainNav">
+  <a href="#hero" style="text-decoration:none;">
+    <svg viewBox="0 0 240 60" width="180" height="45" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ng" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#c49a3c" stop-opacity="0"/>
+          <stop offset="30%"  stop-color="#c49a3c" stop-opacity="1"/>
+          <stop offset="70%"  stop-color="#c49a3c" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#c49a3c" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <line x1="10" y1="10" x2="230" y2="10" stroke="url(#ng)" stroke-width="0.7"/>
+      <text x="120" y="36" font-family="Georgia,serif" font-size="22" font-style="italic"
+            fill="#e8cc80" text-anchor="middle" letter-spacing="-0.5">Pedal &amp; Truffle</text>
+      <text x="120" y="50" font-family="Jost,sans-serif" font-size="5.5" font-weight="200"
+            fill="#c49a3c" text-anchor="middle" letter-spacing="4">E-BIKE TOURS · NSW</text>
+      <line x1="10" y1="57" x2="230" y2="57" stroke="url(#ng)" stroke-width="0.7"/>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#experience">The Ride</a></li>
+    <li><a href="#route">Route</a></li>
+    <li><a href="#map">Map</a></li>
+    <li><a href="#stay">Stay</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="#book" class="nav-cta">Book Now</a>
+  <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile nav overlay -->
+<div id="mobileMenu" style="display:none;position:fixed;inset:0;z-index:490;background:rgba(44,31,18,.97);backdrop-filter:blur(12px);flex-direction:column;align-items:center;justify-content:center;gap:28px;">
+  <a href="#experience" onclick="toggleMenu()" style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;text-decoration:none;">The Ride</a>
+  <a href="#route"      onclick="toggleMenu()" style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;text-decoration:none;">Route</a>
+  <a href="#stay"       onclick="toggleMenu()" style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;text-decoration:none;">Stay</a>
+  <a href="#gallery"    onclick="toggleMenu()" style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;text-decoration:none;">Gallery</a>
+  <a href="#pricing"    onclick="toggleMenu()" style="font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;text-decoration:none;">Pricing</a>
+  <a href="#book"       onclick="toggleMenu()" style="font-family:'Jost',sans-serif;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:14px 36px;text-decoration:none;margin-top:12px;">Book Now</a>
+</div>
+
+<!-- ══ HERO ═════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">E-Bike Tours · Southern Tablelands NSW</span>
+    <h1 class="hero-title">
+      Ride the Tablelands.<br><em>Sleep Among Truffles.</em>
+    </h1>
+    <p class="hero-sub">
+      A self-guided electric bike journey through Australia's most beautiful back roads —
+      from Bungendore to Nowra, with one unforgettable night at Charley's Forest Truffles, Mongarlowe.
+    </p>
+    <div class="hero-actions">
+      <a href="#book" class="btn-primary">Book Your Tour</a>
+      <a href="#route" class="btn-ghost">Discover the Route</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══ STATS STRIP ═══════════════════════════════════ -->
+<div class="stats-strip">
+  <div class="stat">
+    <span class="stat-num">160<small style="font-size:1.4rem">km+</small></span>
+    <span class="stat-label">Scenic Route</span>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat">
+    <span class="stat-num">2</span>
+    <span class="stat-label">Days Riding</span>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat">
+    <span class="stat-num">1</span>
+    <span class="stat-label">Night Accommodation</span>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat">
+    <span class="stat-num">100<small style="font-size:1.4rem">%</small></span>
+    <span class="stat-label">E-Bikes Provided</span>
+  </div>
+  <div class="stat-div"></div>
+  <div class="stat">
+    <span class="stat-num">0</span>
+    <span class="stat-label">Experience Needed</span>
+  </div>
+</div>
+
+<!-- ══ LOCAL IMAGE STRIP ═════════════════════════════ -->
+<div id="image-strip">
+  <div class="strip-grid">
+    <div class="strip-cell">
+      <img src="images/gallery/OIP.jpg" alt="Southern Tablelands landscape">
+      <div class="strip-label">Southern Tablelands</div>
+    </div>
+    <div class="strip-cell">
+      <img src="images/gallery/OIP%20(1).jpg" alt="Cycling the route">
+      <div class="strip-label">The Route</div>
+    </div>
+    <div class="strip-cell">
+      <img src="images/gallery/OIP%20(2).jpg" alt="Truffle farm stay">
+      <div class="strip-label">Truffle Country</div>
+    </div>
+    <div class="strip-cell">
+      <img src="images/gallery/OIP%20(3).jpg" alt="NSW wilderness">
+      <div class="strip-label">NSW Wilderness</div>
+    </div>
+    <div class="strip-cell">
+      <img src="images/gallery/OIP%20(4).jpg" alt="E-bike adventure">
+      <div class="strip-label">E-Bike Adventure</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ THE EXPERIENCE ════════════════════════════════ -->
+<section id="experience">
+  <div class="exp-visual">
+    <div class="exp-visual-img"></div>
+    <div class="exp-quote">
+      <p>"The Attack of the Buns is one of Australia's most celebrated cycling routes. We made it accessible to everyone."</p>
+      <cite>— Pedal &amp; Truffle, Mongarlowe NSW</cite>
+    </div>
+  </div>
+  <div class="exp-text">
+    <span class="section-label reveal">The Experience</span>
+    <h2 class="section-heading reveal">Adventure Made <em>Effortless</em></h2>
+    <p class="exp-pull reveal">
+      Most people will never ride the Attack of the Buns route. We've changed that.
+    </p>
+    <div class="section-body reveal">
+      <p>
+        The Attack of the Buns is a 320km bikepacking legend — celebrated for its breathtaking
+        Southern Tablelands scenery, remote wilderness, and unforgettable gravel roads.
+        Designed for serious bikepackers, it demands days of hard effort and expert navigation.
+      </p>
+      <p>
+        Pedal &amp; Truffle takes the magic of this iconic route and opens it to everyone.
+        With premium electric bikes, a detailed GPS route loaded and ready to go, and a curated overnight stay at
+        the extraordinary Charley's Forest Truffles, this is adventure travel at its finest —
+        without the suffering.
+      </p>
+      <p>
+        Your journey begins at Bungendore train station — accessible from Sydney or Canberra —
+        and finishes at the South Coast in Nowra, with every detail handled for you.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THE ROUTE ═════════════════════════════════════ -->
+<section id="route" class="section-pad">
+  <div class="route-inner">
+    <div class="route-header">
+      <span class="section-label reveal">The Journey</span>
+      <h2 class="section-heading reveal">Bungendore <em>to</em> Nowra</h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:var(--soil);margin-top:16px;line-height:1.8;" class="reveal">
+        Two days of riding through forests, tablelands, and wilderness —
+        with a world-class overnight stop at the heart of it all.
+      </p>
+    </div>
+    <div class="route-steps">
+      <div class="route-step reveal">
+        <span class="step-icon">🚂</span>
+        <div class="step-num">01</div>
+        <div class="step-town"><em>Bungendore</em></div>
+        <span class="step-km">Day 1 · Start</span>
+        <p class="step-desc">Collect your electric bike and GPS-loaded route at the historic Bungendore train station. Fuel up at The Gathering café before heading into the tablelands.</p>
+      </div>
+      <div class="route-step reveal">
+        <span class="step-icon">🥐</span>
+        <div class="step-num">02</div>
+        <div class="step-town"><em>Braidwood</em></div>
+        <span class="step-km">Day 1 · ~60km</span>
+        <p class="step-desc">Ride through sweeping gravel roads and ancient eucalypt forest to the heritage town of Braidwood. Stop at the legendary Dojo Bakery — the best artisan bread in NSW.</p>
+      </div>
+      <div class="route-step reveal">
+        <span class="step-icon">🍄</span>
+        <div class="step-num">03</div>
+        <div class="step-town"><em>Mongarlowe</em></div>
+        <span class="step-km">Day 1 · Evening</span>
+        <p class="step-desc">Arrive at Charley's Forest Truffles for your overnight stay. Boutique accommodation on a working truffle farm — where the pace slows and the evening is yours to savour.</p>
+      </div>
+      <div class="route-step reveal">
+        <span class="step-icon">🌊</span>
+        <div class="step-num">04</div>
+        <div class="step-town"><em>Nowra</em></div>
+        <span class="step-km">Day 2 · Finish</span>
+        <p class="step-desc">A final day's ride through the Budawang wilderness and Morton National Park, arriving at Nowra on the South Coast — a well-earned finish to an extraordinary journey.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THE MAP ════════════════════════════════════════ -->
+<section id="map">
+  <div class="map-layout">
+
+    <!-- Left: route stops info -->
+    <div class="map-info">
+      <span class="section-label reveal-right">The Route</span>
+      <h2 class="section-heading reveal-right">Find Your <em>Way</em></h2>
+      <div class="map-stops reveal-right">
+
+        <div class="map-stop">
+          <div class="map-stop-pin">01<div class="map-stop-line"></div></div>
+          <div class="map-stop-text">
+            <div class="map-stop-town">Bungendore</div>
+            <div class="map-stop-detail">Day 1 · Departure</div>
+            <div class="map-stop-note">Collect your e-bike and GPS route pack at Bungendore Train Station — accessible from Sydney &amp; Canberra.</div>
+          </div>
+        </div>
+
+        <div class="map-stop">
+          <div class="map-stop-pin">02<div class="map-stop-line"></div></div>
+          <div class="map-stop-text">
+            <div class="map-stop-town">Braidwood</div>
+            <div class="map-stop-detail">Day 1 · ~60km</div>
+            <div class="map-stop-note">Heritage town lunch stop. Home of the legendary Dojo Bakery.</div>
+          </div>
+        </div>
+
+        <div class="map-stop">
+          <div class="map-stop-pin overnight">★<div class="map-stop-line"></div></div>
+          <div class="map-stop-text">
+            <div class="map-stop-town">Mongarlowe</div>
+            <div class="map-stop-detail">Night 1 · Overnight Stay</div>
+            <div class="map-stop-note">Charley's Forest Truffles — boutique accommodation on a working truffle farm. Dinner &amp; breakfast included.</div>
+          </div>
+        </div>
+
+        <div class="map-stop">
+          <div class="map-stop-pin">03<div class="map-stop-line"></div></div>
+          <div class="map-stop-text">
+            <div class="map-stop-town">Budawang Ranges</div>
+            <div class="map-stop-detail">Day 2 · Wilderness</div>
+            <div class="map-stop-note">Ride through Morton National Park — waterfalls, gorges, and ancient forest.</div>
+          </div>
+        </div>
+
+        <div class="map-stop">
+          <div class="map-stop-pin">04</div>
+          <div class="map-stop-text">
+            <div class="map-stop-town">Nowra</div>
+            <div class="map-stop-detail">Day 2 · Finish</div>
+            <div class="map-stop-note">South Coast arrival. Train connections back to Sydney or Canberra.</div>
+          </div>
+        </div>
+
+      </div>
+      <a
+        href="https://www.google.com/maps/dir/Bungendore+NSW/Braidwood+NSW/Mongarlowe+NSW/Nowra+NSW"
+        target="_blank"
+        class="map-cta-link reveal-right"
+      >Open Full Route in Google Maps →</a>
+    </div>
+
+    <!-- Right: embedded map centred on Mongarlowe -->
+    <div class="map-embed-wrap">
+      <iframe
+        src="https://maps.google.com/maps?q=Mongarlowe,+NSW+2622,+Australia&t=&z=10&ie=UTF8&iwloc=&output=embed"
+        title="Mongarlowe, NSW — overnight stop on the Pedal &amp; Truffle e-bike tour"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ THE STAY ══════════════════════════════════════ -->
+<section id="stay">
+  <div class="stay-text">
+    <span class="section-label reveal-right">Overnight Stay</span>
+    <h2 class="section-heading reveal-right">Charley's Forest <em>Truffles</em></h2>
+    <div class="section-body reveal-right">
+      <p>
+        Halfway through your journey lies one of the Southern Tablelands' most extraordinary properties.
+        Charley's Forest Truffles in Mongarlowe is a working truffle farm with boutique accommodation —
+        a place where the pace slows, the food is extraordinary, and the silence is golden.
+      </p>
+      <p>
+        After a day in the saddle, you'll arrive to something truly special. Your bikes are secured,
+        dinner awaits, and the tablelands stretch out around you under the clearest skies you've ever seen.
+      </p>
+    </div>
+    <div class="stay-features reveal-right">
+      <div class="stay-feature">Boutique accommodation on a working truffle farm</div>
+      <div class="stay-feature">Private rooms with premium linen</div>
+      <div class="stay-feature">Dinner featuring seasonal truffle produce</div>
+      <div class="stay-feature">Secure bike storage overnight</div>
+      <div class="stay-feature">Mongarlowe, Southern Tablelands NSW</div>
+    </div>
+    <a href="https://charleysforesttruffles.com.au" target="_blank" class="stay-cta reveal-right">Visit Charley's Forest Truffles →</a>
+  </div>
+  <div class="stay-visual">
+    <div class="stay-visual-img"></div>
+    <div class="stay-badge">
+      <span class="stay-badge-name">Charley's Forest Truffles</span>
+      <span class="stay-badge-sub">Mongarlowe · NSW · Boutique Stay</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHAT'S INCLUDED ══════════════════════════════ -->
+<section id="includes" class="section-pad">
+  <div class="includes-inner">
+    <div class="includes-header">
+      <span class="section-label reveal">Everything Included</span>
+      <h2 class="section-heading reveal">Nothing Left <em>to Chance</em></h2>
+      <p style="font-family:'EB Garamond',serif;font-size:1.05rem;color:var(--soil);margin-top:16px;line-height:1.8;max-width:540px;margin-left:auto;margin-right:auto;" class="reveal">
+        Every detail is handled. You simply arrive at the station, ride, and experience.
+      </p>
+    </div>
+    <div class="includes-grid">
+      <div class="include-card reveal">
+        <span class="include-icon">⚡</span>
+        <div class="include-num">01</div>
+        <div class="include-title">Premium <em>E-Bikes</em></div>
+        <p class="include-desc">Full-day electric bike hire with helmets, panniers, and all safety gear included. Our fleet is serviced before every tour so you never think about the machine — only the road ahead.</p>
+        <ul class="include-list">
+          <li>Quality electric bikes — full day hire</li>
+          <li>Helmet, panniers &amp; safety gear</li>
+          <li>Pre-tour bike fitting &amp; briefing</li>
+        </ul>
+      </div>
+      <div class="include-card reveal">
+        <span class="include-icon">🗺️</span>
+        <div class="include-num">02</div>
+        <div class="include-title">GPS Route <em>Pack</em></div>
+        <p class="include-desc">Your GPS device is pre-loaded with the full route — every turn, hidden lookout, rest stop, and shortcut. Ride at your own pace with total confidence, no map-reading required.</p>
+        <ul class="include-list">
+          <li>Pre-loaded GPS device included</li>
+          <li>Printed cue sheet &amp; route notes</li>
+          <li>24/7 support phone line</li>
+        </ul>
+      </div>
+      <div class="include-card reveal">
+        <span class="include-icon">🍽️</span>
+        <div class="include-num">03</div>
+        <div class="include-title">Accommodation <em>&amp; Dinner</em></div>
+        <p class="include-desc">One night at Charley's Forest Truffles — boutique rooms, evening dinner featuring truffle produce, and a morning to ease back into the saddle. Breakfast included before Day 2.</p>
+        <ul class="include-list">
+          <li>1 night at Charley's Forest Truffles</li>
+          <li>Dinner &amp; breakfast included</li>
+          <li>Secure overnight bike storage</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ═══════════════════════════════════════ -->
+<section id="gallery">
+  <div class="gallery-header">
+    <span class="section-label">The Landscape</span>
+    <h2 class="section-heading">Along the <em>Route</em></h2>
+    <p>From the tablelands to the coast — every kilometre a postcard.</p>
+  </div>
+  <div class="gallery-mosaic">
+
+    <!-- Row 1 — large + two -->
+    <div class="gallery-cell g1">
+      <img src="At%20Bunz/AB%20pics/Attack-of-the-Buns-Australia_9.jpg" alt="Attack of the Buns route, NSW">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Attack of the Buns · NSW</div>
+    </div>
+    <div class="gallery-cell g2">
+      <img src="images/gallery/OIP.jpg" alt="Southern Tablelands">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Southern Tablelands</div>
+    </div>
+    <div class="gallery-cell g3">
+      <img src="images/gallery/OIP%20(1).jpg" alt="Cycling route">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">The Route</div>
+    </div>
+
+    <!-- Row 1 cont -->
+    <div class="gallery-cell g4">
+      <img src="images/gallery/OIP%20(2).jpg" alt="Truffle country">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Truffle Country</div>
+    </div>
+    <div class="gallery-cell g5">
+      <img src="images/gallery/OIP%20(3).jpg" alt="NSW wilderness">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">NSW Wilderness</div>
+    </div>
+    <div class="gallery-cell g6">
+      <img src="images/gallery/OIP%20(4).jpg" alt="E-bike adventure">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">E-Bike Adventure</div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="gallery-cell g7">
+      <img src="images/gallery/OIP%20(5).jpg" alt="Tablelands scenery">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Tablelands Scenery</div>
+    </div>
+    <div class="gallery-cell g8">
+      <img src="images/gallery/OIP%20(6).jpg" alt="Gravel roads">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Gravel Roads</div>
+    </div>
+    <div class="gallery-cell g9">
+      <img src="images/gallery/OIP%20(7).jpg" alt="Braidwood heritage">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Braidwood Heritage</div>
+    </div>
+    <div class="gallery-cell g10">
+      <img src="images/gallery/OIP%20(8).jpg" alt="Forest trails">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Forest Trails</div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="gallery-cell g11">
+      <img src="images/gallery/OIP%20(9).jpg" alt="Mountain views">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Mountain Views</div>
+    </div>
+    <div class="gallery-cell g12">
+      <img src="images/gallery/OIP%20(10).jpg" alt="River crossing">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">River Crossing</div>
+    </div>
+    <div class="gallery-cell g13">
+      <img src="images/gallery/OIP%20(11).jpg" alt="Budawang ranges">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Budawang Ranges</div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="gallery-cell g14">
+      <img src="images/gallery/download.jpg" alt="Nowra South Coast">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">South Coast · Nowra</div>
+    </div>
+    <div class="gallery-cell g15">
+      <img src="At%20Bunz/AB%20pics/Attack-of-the-Buns-Australia_21.jpg" alt="Attack of the Buns cycling">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Attack of the Buns Route</div>
+    </div>
+    <div class="gallery-cell g16">
+      <img src="images/gallery/2.jpg" alt="Mongarlowe valley">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-label">Mongarlowe Valley</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ PRICING ══════════════════════════════════════ -->
+<section id="pricing" class="section-pad">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <span class="section-label reveal">Pricing</span>
+      <h2 class="section-heading reveal">Choose Your <em>Experience</em></h2>
+    </div>
+    <div class="pricing-cards">
+      <div class="price-card reveal">
+        <span class="price-label">Twin Share</span>
+        <div class="price-name">The Classic Tour</div>
+        <div class="price-amount">
+          <span class="price-num">$695</span>
+          <span class="price-per">per person</span>
+        </div>
+        <div class="price-divider"></div>
+        <ul class="price-items">
+          <li>2-day self-guided e-bike tour</li>
+          <li>Premium electric bike hire</li>
+          <li>Pre-loaded GPS device &amp; route notes</li>
+          <li>1 night at Charley's Forest Truffles</li>
+          <li>Dinner &amp; breakfast included</li>
+          <li>Route maps &amp; GPS support</li>
+          <li>Departs Bungendore train station</li>
+        </ul>
+        <div class="price-addon">
+          <div class="price-addon-label">Optional Add-on</div>
+          <div class="price-addon-row">
+            <span class="price-addon-name">🚂 Sydney Return Train Tickets</span>
+            <span class="price-addon-price">+$150</span>
+          </div>
+          <div class="price-addon-detail">Sydney Central → Bungendore (depart) · Nowra → Sydney Central (return). We handle the booking.</div>
+        </div>
+        <a href="#book" class="price-cta">Enquire Now</a>
+      </div>
+      <div class="price-card price-card-featured reveal">
+        <span class="price-label price-label-light">Private Tour</span>
+        <div class="price-name price-name-light">The Private Experience</div>
+        <div class="price-amount">
+          <span class="price-num">$995</span>
+          <span class="price-per price-per-light">per person</span>
+        </div>
+        <div class="price-divider price-divider-light"></div>
+        <ul class="price-items price-items-light">
+          <li>Everything in The Classic Tour</li>
+          <li>Priority phone support throughout</li>
+          <li>Customised pace &amp; rest stops</li>
+          <li>Private accommodation suite</li>
+          <li>Curated truffle degustation dinner</li>
+          <li>Priority booking &amp; date flexibility</li>
+          <li>Luggage transfer between stops</li>
+        </ul>
+        <div class="price-addon price-addon-dark">
+          <div class="price-addon-label" style="color:var(--gold-pale);">Optional Add-on</div>
+          <div class="price-addon-row">
+            <span class="price-addon-name" style="color:rgba(230,220,200,.75);">🚂 Sydney Return Train Tickets</span>
+            <span class="price-addon-price">+$150</span>
+          </div>
+          <div class="price-addon-detail" style="color:rgba(230,220,200,.4);">Sydney Central → Bungendore (depart) · Nowra → Sydney Central (return). We handle the booking.</div>
+        </div>
+        <a href="#book" class="price-cta price-cta-filled">Book Private Tour</a>
+      </div>
+    </div>
+    <p class="price-note">All prices in AUD · Minimum 2 guests for Classic Tour · Train add-on based on standard economy fare · Group rates available</p>
+  </div>
+</section>
+
+<!-- ══ BOOK ══════════════════════════════════════════ -->
+<section id="book" class="section-pad">
+  <div class="book-inner" style="max-width:860px;">
+    <span class="section-label" style="color:var(--gold);">Book Your Adventure</span>
+    <h2 class="section-heading">Ready to <em>Ride?</em></h2>
+    <p class="book-sub">Fill in the form below and we'll confirm availability within 24 hours.</p>
+
+    <!-- ── Booking Form ── -->
+    <form id="booking-form" onsubmit="submitBooking(event)" novalidate>
+      <div class="bform-grid">
+
+        <div class="bform-group bform-full">
+          <div class="bform-row">
+            <div class="bform-group">
+              <label class="bform-label">Tour Type</label>
+              <select name="tour_type" id="f-tour-type" class="bform-input" onchange="updatePrice()">
+                <option value="classic">Classic Tour — $695 per person</option>
+                <option value="private">Private Experience — $995 per person</option>
+              </select>
+            </div>
+            <div class="bform-group">
+              <label class="bform-label">Preferred Date</label>
+              <input type="date" name="tour_date" class="bform-input" required min="">
+            </div>
+            <div class="bform-group">
+              <label class="bform-label">Number of Guests</label>
+              <select name="guests" id="f-guests" class="bform-input" onchange="updatePrice()">
+                <option value="1">1 Guest</option>
+                <option value="2" selected>2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4 Guests</option>
+                <option value="5">5 Guests</option>
+                <option value="6">6 Guests</option>
+                <option value="7">7 Guests</option>
+                <option value="8">8 Guests</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="bform-group bform-full">
+          <label class="bform-label bform-checkbox-label">
+            <input type="checkbox" name="train_addon" id="f-train" onchange="updatePrice()" style="accent-color:var(--gold);width:16px;height:16px;">
+            Add Sydney return train tickets &nbsp;<span style="color:var(--gold);">+$150 per person</span>
+          </label>
+        </div>
+
+        <div class="bform-divider"></div>
+
+        <div class="bform-group">
+          <label class="bform-label">Full Name</label>
+          <input type="text" name="name" class="bform-input" placeholder="Your full name" required>
+        </div>
+        <div class="bform-group">
+          <label class="bform-label">Email Address</label>
+          <input type="email" name="email" class="bform-input" placeholder="your@email.com" required>
+        </div>
+        <div class="bform-group">
+          <label class="bform-label">Phone Number</label>
+          <input type="tel" name="phone" class="bform-input" placeholder="+61 400 000 000" required>
+        </div>
+
+        <div class="bform-group bform-full">
+          <label class="bform-label">Special Requests <span style="opacity:.5;">(optional)</span></label>
+          <textarea name="requests" class="bform-input" rows="3" placeholder="Dietary requirements, fitness notes, anything else we should know…"></textarea>
+        </div>
+
+        <!-- Price summary -->
+        <div class="bform-group bform-full">
+          <div class="bform-summary">
+            <span class="bform-summary-label">Estimated Total</span>
+            <span class="bform-summary-price" id="price-display">$1,190</span>
+            <span class="bform-summary-note">Final total confirmed upon booking. No payment taken now.</span>
+          </div>
+        </div>
+
+        <div class="bform-group bform-full">
+          <button type="submit" class="bform-submit" id="submit-btn">
+            <span id="submit-text">Send Booking Request</span>
+          </button>
+        </div>
+
+      </div>
+    </form>
+
+    <!-- Success state -->
+    <div id="booking-success" style="display:none;text-align:center;padding:40px 20px;">
+      <div style="font-size:2.5rem;margin-bottom:16px;">✓</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold-pale);margin-bottom:12px;">Booking Received!</h3>
+      <p style="color:rgba(230,220,200,.65);line-height:1.7;max-width:480px;margin:0 auto 24px;" id="success-msg"></p>
+      <a href="#hero" style="font-family:'Jost',sans-serif;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold);padding:10px 24px;display:inline-block;">Back to Top</a>
+    </div>
+
+    <div class="book-contact" style="margin-top:40px;">
+      <div class="book-contact-item">
+        <span class="book-contact-label">Email</span>
+        <a href="mailto:hello@pedal-and-truffle.com.au" class="book-contact-value">hello@pedal-and-truffle.com.au</a>
+      </div>
+      <div class="book-contact-item">
+        <span class="book-contact-label">Phone</span>
+        <a href="tel:+61400000000" class="book-contact-value">+61 400 000 000</a>
+      </div>
+      <div class="book-contact-item">
+        <span class="book-contact-label">Departs</span>
+        <span class="book-contact-value">Bungendore Train Station</span>
+      </div>
+    </div>
+    <p class="book-note">Tours run seasonally · Self-guided · GPS &amp; route pack included · E-bikes suited to all fitness levels</p>
+  </div>
+</section>
+
+<!-- ══ FAQ ═══════════════════════════════════════════ -->
+<section id="faq" class="section-pad">
+  <div class="faq-inner">
+    <div class="faq-header">
+      <span class="section-label reveal">Questions</span>
+      <h2 class="section-heading reveal">Frequently <em>Asked</em></h2>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        Do I need cycling experience?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Not at all. Our premium electric bikes make the hills effortless. If you can ride a bike,
+        you can ride this tour. We cater to all fitness levels — ride at your own pace, stop whenever you like. No lycra required.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        How do I get to the start?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Bungendore is on the Canberra train line, with regular services from Sydney and Canberra.
+        We can also arrange transfers from Canberra CBD. Full logistics briefing is provided upon booking.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        What's the terrain like?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        A mix of sealed country roads and light gravel tracks — beautiful tablelands scenery throughout.
+        The electric bikes handle all the hills with ease. Total riding is approximately 160km spread over two days,
+        with plenty of stops along the way.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        What's included in the overnight stay?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Your night at Charley's Forest Truffles includes private accommodation, secure bike storage,
+        a truffle-focused dinner, and breakfast the next morning. It's a working truffle farm with
+        extraordinary produce — the overnight stop is genuinely one of the tour highlights.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        What's the group size?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        Classic tours run with a maximum of 8 riders for a personal, uncrowded experience.
+        Private tours are exclusive — just your group, your GPS, and the open road.
+        We recommend booking early as spots fill quickly.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-question">
+        What happens if the weather is bad?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        We monitor conditions carefully and communicate with all guests in the week before departure.
+        Wet weather gear is available. In the event of severe conditions, we'll work with you to
+        reschedule at no cost. Australian country weather is generally very rider-friendly.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg viewBox="0 0 240 60" width="160" height="40" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="ng2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#c49a3c" stop-opacity="0"/>
+            <stop offset="30%"  stop-color="#c49a3c" stop-opacity="0.6"/>
+            <stop offset="70%"  stop-color="#c49a3c" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#c49a3c" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line x1="10" y1="10" x2="230" y2="10" stroke="url(#ng2)" stroke-width="0.7"/>
+        <text x="120" y="36" font-family="Georgia,serif" font-size="22" font-style="italic"
+              fill="rgba(232,204,128,.55)" text-anchor="middle" letter-spacing="-0.5">Pedal &amp; Truffle</text>
+        <text x="120" y="50" font-family="Jost,sans-serif" font-size="5.5" font-weight="200"
+              fill="rgba(196,154,60,.4)" text-anchor="middle" letter-spacing="4">E-BIKE TOURS · NSW</text>
+        <line x1="10" y1="57" x2="230" y2="57" stroke="url(#ng2)" stroke-width="0.7"/>
+      </svg>
+      <p>Boutique self-guided e-bike tours through the Southern Tablelands of NSW — from Bungendore to Nowra via the legendary Attack of the Buns route.</p>
+    </div>
+    <div>
+      <span class="footer-col-title">The Tour</span>
+      <ul class="footer-links">
+        <li><a href="#experience">The Experience</a></li>
+        <li><a href="#route">The Route</a></li>
+        <li><a href="#stay">Overnight Stay</a></li>
+        <li><a href="#includes">What's Included</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="footer-col-title">Locations</span>
+      <ul class="footer-links">
+        <li><a href="#route">Bungendore</a></li>
+        <li><a href="#route">Braidwood</a></li>
+        <li><a href="#stay">Mongarlowe</a></li>
+        <li><a href="#route">Budawang NP</a></li>
+        <li><a href="#route">Nowra</a></li>
+      </ul>
+    </div>
+    <div>
+      <span class="footer-col-title">Contact</span>
+      <ul class="footer-links">
+        <li><a href="mailto:hello@pedal-and-truffle.com.au">hello@pedal-and-truffle.com.au</a></li>
+        <li><a href="tel:+61400000000">+61 400 000 000</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#book">Book Now</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Pedal &amp; Truffle · Mongarlowe NSW Australia · ABN pending</span>
+    <span class="footer-tagline">Ride the Tablelands. Sleep Among Truffles.</span>
+  </div>
+</footer>
+
+<!-- ══ SCRIPTS ═══════════════════════════════════════ -->
+<script>
+/* — Custom cursor — */
+const dot  = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function loop() {
+  rx += (mx - rx) * .18; ry += (my - ry) * .18;
+  dot.style.left  = mx + 'px'; dot.style.top  = my + 'px';
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { dot.style.width = '12px'; dot.style.height = '12px'; });
+  el.addEventListener('mouseleave', () => { dot.style.width = '7px';  dot.style.height = '7px'; });
+});
+
+/* — Scroll nav — */
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('solid', window.scrollY > 60);
+});
+
+/* — Reveal on scroll — */
+const reveals = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold:.12 });
+reveals.forEach(el => io.observe(el));
+
+/* — Booking form — */
+const TOUR_PRICES = { classic: 695, private: 995 };
+
+function updatePrice() {
+  const type   = document.getElementById('f-tour-type').value;
+  const guests = parseInt(document.getElementById('f-guests').value);
+  const train  = document.getElementById('f-train').checked;
+  const total  = (TOUR_PRICES[type] * guests) + (train ? 150 * guests : 0);
+  document.getElementById('price-display').textContent = '$' + total.toLocaleString();
+}
+
+// Set min date to tomorrow
+document.addEventListener('DOMContentLoaded', () => {
+  const dateInput = document.querySelector('input[name="tour_date"]');
+  if (dateInput) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.min = tomorrow.toISOString().split('T')[0];
+  }
+  updatePrice();
+});
+
+async function submitBooking(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn  = document.getElementById('submit-btn');
+  const txt  = document.getElementById('submit-text');
+
+  // Clear old errors
+  form.querySelectorAll('.bform-error').forEach(el => el.remove());
+
+  btn.disabled = true;
+  txt.textContent = 'Sending…';
+
+  const data = {
+    tour_type:   form.tour_type.value,
+    tour_date:   form.tour_date.value,
+    guests:      form.guests.value,
+    train_addon: form.train_addon.checked ? '1' : '0',
+    name:        form.name.value,
+    email:       form.email.value,
+    phone:       form.phone.value,
+    requests:    form.requests.value
+  };
+
+  try {
+    const res  = await fetch('/api/bookings', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(data)
+    });
+    const json = await res.json();
+
+    if (!res.ok) {
+      // Show field errors
+      if (json.errors) {
+        json.errors.forEach(err => {
+          const field = form.querySelector(`[name="${err.path}"]`);
+          if (field) {
+            const msg = document.createElement('div');
+            msg.className = 'bform-error';
+            msg.textContent = err.msg;
+            field.parentNode.appendChild(msg);
+          }
+        });
+      }
+      btn.disabled = false;
+      txt.textContent = 'Send Booking Request';
+      return;
+    }
+
+    // Success
+    form.style.display = 'none';
+    const success = document.getElementById('booking-success');
+    success.style.display = 'block';
+    document.getElementById('success-msg').textContent =
+      `Thanks ${json.summary.tour} for ${json.summary.guests} guest(s) on ${json.summary.date}. ` +
+      `Estimated total: ${json.summary.total}. We'll be in touch within 24 hours to confirm.`;
+
+  } catch (err) {
+    btn.disabled = false;
+    txt.textContent = 'Send Booking Request';
+    alert('Something went wrong. Please email us directly at hello@pedal-and-truffle.com.au');
+  }
+}
+
+/* — FAQ toggle — */
+function toggleFaq(item) {
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* — Mobile menu — */
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const open  = menu.style.display === 'flex';
+  menu.style.display = open ? 'none' : 'flex';
+}
+
+/* — Graceful image fallback — */
+document.querySelectorAll('img').forEach(img => {
+  img.onerror = function() {
+    this.style.opacity = '0';
+    if (this.parentElement) {
+      this.parentElement.style.background = 'linear-gradient(135deg,#2c1f12 0%,#4a3522 100%)';
+    }
+  };
+});
+</script>
+
+</body>
+</html>

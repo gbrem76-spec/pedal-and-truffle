@@ -1,0 +1,128 @@
+════════════════════════════════════════════════════════
+  PEDAL & TRUFFLE — Photo Download Guide
+  Right-click each link below → Save Image As
+  Save into the matching folder listed beside it
+════════════════════════════════════════════════════════
+
+All Wikimedia Commons images are FREE for commercial use
+(Creative Commons licence — credit the photographer).
+All Unsplash images are FREE for commercial use.
+For Shoalhaven Tourism images — email them for permission.
+
+────────────────────────────────────────────────────────
+FOLDER: attack-of-the-buns
+────────────────────────────────────────────────────────
+1. Cyclists on gravel road (dramatic sky)
+   https://images.unsplash.com/photo-a3bQOBdZXAQ?w=1600&q=80
+
+2. Couple riding bikes on dirt road
+   https://images.unsplash.com/photo-y9cnff1yDag?w=1600&q=80
+
+3. Winding dirt road through Australian forest
+   https://images.unsplash.com/photo-pe6_dJGx6ZI?w=1600&q=80
+
+ALSO BROWSE (best real route photos):
+   Instagram: https://www.instagram.com/explore/tags/attackofthebuns/
+   Blog:      https://bikepacking.com/routes/attack-of-the-buns/
+   Blog:      https://weareexplorers.co/attack-of-the-buns-bikepacking-bungendore-nsw/
+
+────────────────────────────────────────────────────────
+FOLDER: braidwood
+────────────────────────────────────────────────────────
+1. Braidwood Courthouse (heritage street scene) ★ FREE
+   https://upload.wikimedia.org/wikipedia/commons/5/5a/BraidwoodCourthouse.JPG
+
+2. Dirt road through green tablelands
+   https://images.unsplash.com/photo-wGIyghfT9z4?w=1600&q=80
+
+3. More Braidwood photos:
+   Wikimedia: https://commons.wikimedia.org/wiki/Category:Braidwood,_New_South_Wales
+   Instagram: https://www.instagram.com/braidwood2622/
+
+────────────────────────────────────────────────────────
+FOLDER: mongarlowe
+────────────────────────────────────────────────────────
+1. Bridge over Mongarlowe River ★ FREE (Wikimedia)
+   https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Mongarlowe_-_Bridge_over_Mongarlowe_River_%28Jan_2021%29.jpg/1280px-Mongarlowe_-_Bridge_over_Mongarlowe_River_%28Jan_2021%29.jpg
+
+2. Historic house in Mongarlowe village ★ FREE (Wikimedia)
+   https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/House_in_Mongarlowe%2C_New_South_Wales.jpg/1280px-House_in_Mongarlowe%2C_New_South_Wales.jpg
+
+3. Rural dirt road with timber fence
+   https://images.unsplash.com/photo-ulq3GvvGRmk?w=1600&q=80
+
+────────────────────────────────────────────────────────
+FOLDER: nowra
+────────────────────────────────────────────────────────
+1. Aerial view road through trees (South Coast style)
+   https://images.unsplash.com/photo-OYGO50LHFA4?w=1600&q=80
+
+2. Kangaroo in lush green field (NSW wildlife)
+   https://images.unsplash.com/photo-U3lV0oAPnE8?w=1600&q=80
+
+3. More Nowra photos:
+   Flickr:    https://www.flickr.com/photos/visitshoalhaven/4621057180
+   Flickr:    https://www.flickr.com/photos/visitshoalhaven/4620441161
+   Wikimedia: https://commons.wikimedia.org/wiki/Category:Nowra,_New_South_Wales
+
+────────────────────────────────────────────────────────
+FOLDER: budawang-national-park
+────────────────────────────────────────────────────────
+1. Dirt road in middle of dense forest
+   https://images.unsplash.com/photo-Uha6ogFcuto?w=1600&q=80
+
+2. Waterfall on rocky sandstone mountain
+   https://images.unsplash.com/photo-AmBS9frh9qg?w=1600&q=80
+
+3. 198 FREE Budawang photos on Wikimedia:
+   https://commons.wikimedia.org/wiki/Category:Budawang_National_Park
+
+   Best Instagram hashtag:
+   https://www.instagram.com/explore/tags/budawangs/
+
+────────────────────────────────────────────────────────
+FOLDER: morton-national-park
+────────────────────────────────────────────────────────
+1. Fitzroy Falls — beautiful shot ★ FREE (Wikimedia)
+   https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Beautiful_Fitzroy_Falls.jpg/960px-Beautiful_Fitzroy_Falls.jpg
+
+2. Fitzroy Falls — aerial view 1998 ★ FREE (Wikimedia/CSIRO)
+   https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/CSIRO_ScienceImage_4650_Fitzroy_Falls_near_Moss_Vale_NSW_1998.jpg/960px-CSIRO_ScienceImage_4650_Fitzroy_Falls_near_Moss_Vale_NSW_1998.jpg
+
+3. More Morton NP photos:
+   Wikimedia:  https://commons.wikimedia.org/wiki/Category:Fitzroy_Falls
+   NSW Parks:  https://www.nationalparks.nsw.gov.au/visit-a-park/parks/morton-national-park
+   Instagram:  https://www.instagram.com/explore/tags/mortonnationalpark/
+
+────────────────────────────────────────────────────────
+FOLDER: tianjara-falls
+────────────────────────────────────────────────────────
+NOTE: "Tanagera Falls" = Tianjara Falls (confirmed spelling)
+91 metre waterfall in Morton National Park near Nowra
+
+1. Tianjara Falls — Shoalhaven Tourism photo
+   https://www.shoalhaven.com/wp-content/uploads/2021/05/tianjara-falls.jpeg
+
+2. Fitzroy Falls — Shoalhaven Tourism photo
+   https://www.shoalhaven.com/wp-content/uploads/2021/05/fitzroy-falls.jpeg
+
+3. Stream through gorge landscape
+   https://images.unsplash.com/photo-7sQis1kcLj0?w=1600&q=80
+
+   More sources:
+   NSW Parks: https://www.nationalparks.nsw.gov.au/things-to-do/walking-tracks/tianjara-falls-track
+   Instagram: https://www.instagram.com/explore/tags/tianjarafalls/
+
+════════════════════════════════════════════════════════
+  WEBSITE FILES — see the /website folder
+════════════════════════════════════════════════════════
+  pedal-and-truffle.html        ← Main website (open in browser)
+  pedal-and-truffle-logos.html  ← 3 logo concepts
+  photo-sources.html            ← Visual photo gallery with click-to-copy URLs
+
+  TO ADD PHOTOS TO WEBSITE:
+  Once you've downloaded your chosen photos, open pedal-and-truffle.html
+  in a text editor and search for "background:" — replace the URL in
+  quotes with the path to your saved photo file.
+
+════════════════════════════════════════════════════════

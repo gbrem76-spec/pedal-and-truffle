@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedal & Truffle — Download Photos</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16110c;--truffle:#2c1f12;--gold:#c49a3c;--gold-pale:#e8cc80;--parchment:#ede6d6;--warm-white:#faf8f4;--mist:#9a8878;--green:#1e3a1e;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Jost",sans-serif;background:var(--ink);color:var(--parchment);min-height:100vh;}
+header{text-align:center;padding:56px 40px 36px;border-bottom:1px solid rgba(196,154,60,.15);}
+.eyebrow{font-size:.52rem;font-weight:200;letter-spacing:.48em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:14px;}
+h1{font-family:"Playfair Display",serif;font-size:2.2rem;font-weight:400;color:var(--warm-white);}
+h1 em{font-style:italic;color:var(--gold-pale);}
+.sub{font-size:.6rem;font-weight:200;letter-spacing:.18em;text-transform:uppercase;color:rgba(230,220,200,.35);margin-top:10px;}
+
+.instructions{background:rgba(196,154,60,.07);border:1px solid rgba(196,154,60,.18);border-left:3px solid var(--gold);padding:20px 28px;margin:32px 48px;font-size:.84rem;line-height:1.75;color:rgba(230,220,200,.7);}
+.instructions strong{color:var(--gold-pale);}
+.instructions ol{margin:10px 0 0 18px;}
+.instructions li{margin-bottom:4px;}
+
+/* master buttons */
+.master-bar{display:flex;gap:12px;justify-content:center;padding:24px 48px;flex-wrap:wrap;}
+.btn-all{font-family:"Jost",sans-serif;font-size:.62rem;font-weight:300;letter-spacing:.22em;text-transform:uppercase;padding:14px 36px;cursor:pointer;border:none;transition:all .3s;}
+.btn-dl-all{background:var(--gold);color:#fff;}
+.btn-dl-all:hover{background:var(--gold-pale);color:var(--truffle);}
+.btn-clear{background:transparent;border:1px solid rgba(230,220,200,.2);color:rgba(230,220,200,.5);}
+.btn-clear:hover{border-color:var(--gold);color:var(--gold);}
+
+/* progress bar */
+.progress-wrap{padding:0 48px 24px;display:none;}
+.progress-bar-bg{background:rgba(196,154,60,.12);height:6px;border-radius:3px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:var(--gold);width:0%;transition:width .4s ease;border-radius:3px;}
+.progress-label{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mist);margin-top:8px;}
+
+/* location sections */
+.location{padding:36px 48px;border-bottom:1px solid rgba(196,154,60,.07);}
+.loc-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;}
+.loc-title-wrap{display:flex;align-items:baseline;gap:14px;}
+.loc-num{font-family:"Playfair Display",serif;font-size:1.6rem;color:rgba(196,154,60,.2);}
+.loc-name{font-family:"Playfair Display",serif;font-size:1.3rem;font-style:italic;color:var(--gold-pale);}
+.loc-tag{font-size:.5rem;font-weight:200;letter-spacing:.28em;text-transform:uppercase;color:var(--mist);}
+.btn-loc{font-family:"Jost",sans-serif;font-size:.54rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;padding:9px 20px;border:1px solid rgba(196,154,60,.35);color:var(--gold);background:transparent;cursor:pointer;transition:all .25s;}
+.btn-loc:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+
+/* photo cards grid */
+.photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;}
+.photo-card{background:var(--truffle);border:1px solid rgba(196,154,60,.08);overflow:hidden;position:relative;}
+.photo-thumb{width:100%;height:160px;object-fit:cover;display:block;background:#1a120a;}
+.photo-thumb-placeholder{width:100%;height:160px;display:flex;align-items:center;justify-content:center;background:#1a120a;font-size:.54rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(230,220,200,.2);}
+.photo-info{padding:14px 16px;}
+.photo-name{font-size:.62rem;font-weight:300;color:var(--gold-pale);display:block;margin-bottom:4px;}
+.photo-credit{font-size:.52rem;font-weight:200;color:rgba(230,220,200,.35);display:block;margin-bottom:10px;}
+.btn-dl{width:100%;font-family:"Jost",sans-serif;font-size:.54rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;padding:10px 0;border:1px solid rgba(196,154,60,.3);color:var(--gold);background:transparent;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-dl:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+.btn-dl.done{background:rgba(30,80,30,.4);border-color:rgba(60,160,60,.4);color:#80e89a;cursor:default;}
+.btn-dl.loading{background:rgba(196,154,60,.12);color:var(--mist);cursor:wait;}
+.status-dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.dot-idle{background:rgba(196,154,60,.4);}
+.dot-loading{background:var(--gold);animation:pulse 1s infinite;}
+.dot-done{background:#60c878;}
+.dot-fail{background:#e06060;}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* summary */
+.summary{display:none;text-align:center;padding:32px 48px;background:rgba(196,154,60,.05);border-top:1px solid rgba(196,154,60,.12);margin-top:8px;}
+.summary-num{font-family:"Playfair Display",serif;font-size:2.8rem;color:var(--gold);display:block;}
+.summary-label{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(230,220,200,.4);}
+.summary-note{font-family:"Playfair Display",serif;font-style:italic;font-size:.95rem;color:rgba(230,220,200,.45);margin-top:14px;line-height:1.6;}
+
+footer{text-align:center;padding:36px;border-top:1px solid rgba(196,154,60,.1);}
+footer p{font-family:"Playfair Display",serif;font-style:italic;font-size:.88rem;color:rgba(196,154,60,.3);}
+@media(max-width:700px){.location{padding:28px 20px;}.master-bar{padding:20px;}.instructions{margin:20px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="eyebrow">Photo Download Tool</span>
+  <h1>Pedal <em>&</em> Truffle</h1>
+  <p class="sub">Click any photo to download · 7 Locations · 16 Images</p>
+</header>
+
+<div class="instructions">
+  <strong>How to use this page:</strong>
+  <ol>
+    <li>Open this file in your web browser (Chrome or Edge work best)</li>
+    <li>Click <strong>Download All Photos</strong> to get every image at once — or download location by location</li>
+    <li>Your browser will download each image to your <strong>Downloads folder</strong></li>
+    <li>Move each photo into the matching subfolder inside <strong>At Bunz / photos /</strong></li>
+    <li>Folders are already created and waiting: attack-of-the-buns / braidwood / mongarlowe / nowra / budawang-national-park / morton-national-park / tianjara-falls</li>
+  </ol>
+</div>
+
+<div class="master-bar">
+  <button class="btn-all btn-dl-all" onclick="downloadAll()">⬇ Download All 16 Photos</button>
+  <button class="btn-all btn-clear" onclick="resetAll()">↺ Reset</button>
+</div>
+
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">Downloading...</div>
+</div>
+
+<div id="locations"></div>
+
+<div class="summary" id="summary">
+  <span class="summary-num" id="summaryNum">0</span>
+  <span class="summary-label">Photos Downloaded</span>
+  <p class="summary-note">Move each file from your Downloads folder into the matching subfolder<br>inside <em>At Bunz / photos /</em></p>
+</div>
+
+<footer>
+  <p>Pedal & Truffle — E-Bike Tours, Southern Tablelands NSW</p>
+</footer>
+
+<script>
+const PHOTOS = [
+  {
+    location: "Attack of the Buns", num:"01", tag:"Cycling Route · Bungendore to Nowra",
+    photos: [
+      { name:"Cyclists on Gravel Road", file:"attack-of-the-buns--gravel-cyclists.jpg", credit:"Unsplash / Getty — Free commercial use",
+        url:"https://images.unsplash.com/photo-a3bQOBdZXAQ?w=1600&q=80" },
+      { name:"Couple Riding on Dirt Road", file:"attack-of-the-buns--couple-on-dirt-road.jpg", credit:"Unsplash — Free commercial use",
+        url:"https://images.unsplash.com/photo-y9cnff1yDag?w=1600&q=80" },
+      { name:"Winding Forest Road · Australia", file:"attack-of-the-buns--winding-forest-road.jpg", credit:"Unsplash / Benjamin Ashton — Free commercial use",
+        url:"https://images.unsplash.com/photo-pe6_dJGx6ZI?w=1600&q=80" }
+    ]
+  },
+  {
+    location: "Braidwood", num:"02", tag:"Heritage Town · Southern Tablelands NSW",
+    photos: [
+      { name:"Braidwood Courthouse", file:"braidwood--courthouse.jpg", credit:"Wikimedia Commons — Public Domain ✓ FREE",
+        url:"https://upload.wikimedia.org/wikipedia/commons/5/5a/BraidwoodCourthouse.JPG" },
+      { name:"Tablelands Dirt Road", file:"braidwood--dirt-road.jpg", credit:"Unsplash — Free commercial use",
+        url:"https://images.unsplash.com/photo-wGIyghfT9z4?w=1600&q=80" }
+    ]
+  },
+  {
+    location: "Mongarlowe", num:"03", tag:"Village · Charley's Forest Truffles",
+    photos: [
+      { name:"Bridge Over Mongarlowe River", file:"mongarlowe--river-bridge.jpg", credit:"Wikimedia Commons — Creative Commons ✓ FREE",
+        url:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Mongarlowe_-_Bridge_over_Mongarlowe_River_%28Jan_2021%29.jpg/1280px-Mongarlowe_-_Bridge_over_Mongarlowe_River_%28Jan_2021%29.jpg" },
+      { name:"Historic Village House", file:"mongarlowe--village-house.jpg", credit:"Wikimedia Commons — Creative Commons ✓ FREE",
+        url:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/House_in_Mongarlowe%2C_New_South_Wales.jpg/1280px-House_in_Mongarlowe%2C_New_South_Wales.jpg" },
+      { name:"Rural Road with Timber Fence", file:"mongarlowe--rural-road.jpg", credit:"Unsplash — Free commercial use",
+        url:"https://images.unsplash.com/photo-ulq3GvvGRmk?w=1600&q=80" }
+    ]
+  },
+  {
+    location: "Nowra", num:"04", tag:"Shoalhaven River · South Coast NSW · Tour Finish",
+    photos: [
+      { name:"Aerial Road Through Trees", file:"nowra--aerial-road.jpg", credit:"Unsplash — Free commercial use",
+        url:"https://images.unsplash.com/photo-OYGO50LHFA4?w=1600&q=80" },
+      { name:"Kangaroo in Green Field · NSW", file:"nowra--kangaroo-field.jpg", credit:"Unsplash — Free commercial use",
+        url:"https://images.unsplash.com/photo-U3lV0oAPnE8?w=1600&q=80" }
+    ]
+  },
+  {
+    location: "Budawang National Park", num:"05", tag:"Wilderness · Sandstone Cliffs",
+    photos: [
+      { name:"Dirt Road Through Dense Forest", file:"budawang--forest-road.jpg", credit:"Unsplash / Jackie Alexander — Free commercial use",
+        url:"https://images.unsplash.com/photo-Uha6ogFcuto?w=1600&q=80" },
+      { name:"Waterfall on Rocky Mountain", file:"budawang--rocky-waterfall.jpg", credit:"Unsplash — Free commercial use",
+        url:"https://images.unsplash.com/photo-AmBS9frh9qg?w=1600&q=80" }
+    ]
+  },
+  {
+    location: "Morton National Park", num:"06", tag:"Gorges · Escarpment · Fitzroy Falls",
+    photos: [
+      { name:"Fitzroy Falls", file:"morton--fitzroy-falls.jpg", credit:"Wikimedia Commons — Public Domain ✓ FREE",
+        url:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Beautiful_Fitzroy_Falls.jpg/960px-Beautiful_Fitzroy_Falls.jpg" },
+      { name:"Fitzroy Falls Aerial · CSIRO 1998", file:"morton--fitzroy-falls-aerial.jpg", credit:"Wikimedia / CSIRO — Public Domain ✓ FREE",
+        url:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/CSIRO_ScienceImage_4650_Fitzroy_Falls_near_Moss_Vale_NSW_1998.jpg/960px-CSIRO_ScienceImage_4650_Fitzroy_Falls_near_Moss_Vale_NSW_1998.jpg" }
+    ]
+  },
+  {
+    location: "Tianjara Falls", num:"07", tag:"91m Waterfall · Morton National Park · near Nowra",
+    photos: [
+      { name:"Gorge Stream Landscape", file:"tianjara--gorge-stream.jpg", credit:"Unsplash — Free commercial use",
+        url:"https://images.unsplash.com/photo-7sQis1kcLj0?w=1600&q=80" },
+      { name:"Waterfall Sandstone Cliffs", file:"tianjara--waterfall-sandstone.jpg", credit:"Unsplash — Free commercial use",
+        url:"https://images.unsplash.com/photo-AmBS9frh9qg?w=1600&q=80" }
+    ]
+  }
+];
+
+let downloadedCount = 0;
+const totalCount = PHOTOS.reduce((s, loc) => s + loc.photos.length, 0);
+
+// ── BUILD UI ──────────────────────────────────────
+function buildUI() {
+  const container = document.getElementById('locations');
+  PHOTOS.forEach((loc, li) => {
+    const section = document.createElement('div');
+    section.className = 'location';
+    section.id = `loc-${li}`;
+
+    let cardsHTML = loc.photos.map((photo, pi) => `
+      <div class="photo-card" id="card-${li}-${pi}">
+        <img class="photo-thumb" src="${photo.url}" alt="${photo.name}"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+             loading="lazy">
+        <div class="photo-thumb-placeholder" style="display:none;">Preview Loading…</div>
+        <div class="photo-info">
+          <span class="photo-name">${photo.name}</span>
+          <span class="photo-credit">${photo.credit}</span>
+          <button class="btn-dl" id="btn-${li}-${pi}" onclick="downloadOne(${li},${pi})">
+            <span class="status-dot dot-idle" id="dot-${li}-${pi}"></span>
+            Download
+          </button>
+        </div>
+      </div>
+    `).join('');
+
+    section.innerHTML = `
+      <div class="loc-header">
+        <div class="loc-title-wrap">
+          <span class="loc-num">${loc.num}</span>
+          <div>
+            <div class="loc-name">${loc.location}</div>
+            <div class="loc-tag">${loc.tag}</div>
+          </div>
+        </div>
+        <button class="btn-loc" onclick="downloadLocation(${li})">⬇ Download All ${loc.photos.length}</button>
+      </div>
+      <div class="photos-grid">${cardsHTML}</div>
+    `;
+    container.appendChild(section);
+  });
+}
+
+// ── DOWNLOAD ONE ─────────────────────────────────
+async function downloadOne(li, pi) {
+  const photo = PHOTOS[li].photos[pi];
+  const btn = document.getElementById(`btn-${li}-${pi}`);
+  const dot = document.getElementById(`dot-${li}-${pi}`);
+
+  if (btn.classList.contains('done') || btn.classList.contains('loading')) return;
+
+  btn.classList.add('loading');
+  btn.innerHTML = `<span class="status-dot dot-loading" id="dot-${li}-${pi}"></span> Downloading…`;
+
+  try {
+    const response = await fetch(photo.url, { mode: 'cors' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const blob = await response.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = photo.file;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+
+    btn.classList.remove('loading');
+    btn.classList.add('done');
+    btn.innerHTML = `<span class="status-dot dot-done"></span> Downloaded ✓`;
+    downloadedCount++;
+    updateProgress();
+  } catch (err) {
+    btn.classList.remove('loading');
+    btn.innerHTML = `<span class="status-dot dot-fail"></span> Failed — try again`;
+    console.error(photo.name, err);
+  }
+}
+
+// ── DOWNLOAD ALL IN LOCATION ──────────────────────
+async function downloadLocation(li) {
+  const loc = PHOTOS[li];
+  for (let pi = 0; pi < loc.photos.length; pi++) {
+    await downloadOne(li, pi);
+    await sleep(600);
+  }
+}
+
+// ── DOWNLOAD ALL ──────────────────────────────────
+async function downloadAll() {
+  document.getElementById('progressWrap').style.display = 'block';
+  for (let li = 0; li < PHOTOS.length; li++) {
+    for (let pi = 0; pi < PHOTOS[li].photos.length; pi++) {
+      await downloadOne(li, pi);
+      await sleep(700);
+    }
+  }
+  document.getElementById('summary').style.display = 'block';
+  document.getElementById('summaryNum').textContent = downloadedCount;
+}
+
+// ── RESET ─────────────────────────────────────────
+function resetAll() {
+  downloadedCount = 0;
+  document.getElementById('progressWrap').style.display = 'none';
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('summary').style.display = 'none';
+  PHOTOS.forEach((loc, li) => {
+    loc.photos.forEach((photo, pi) => {
+      const btn = document.getElementById(`btn-${li}-${pi}`);
+      if (btn) {
+        btn.className = 'btn-dl';
+        btn.innerHTML = `<span class="status-dot dot-idle" id="dot-${li}-${pi}"></span> Download`;
+      }
+    });
+  });
+}
+
+// ── PROGRESS ─────────────────────────────────────
+function updateProgress() {
+  const pct = Math.round((downloadedCount / totalCount) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent =
+    `${downloadedCount} of ${totalCount} photos downloaded`;
+  if (downloadedCount === totalCount) {
+    document.getElementById('summary').style.display = 'block';
+    document.getElementById('summaryNum').textContent = downloadedCount;
+  }
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── INIT ──────────────────────────────────────────
+buildUI();
+</script>
+</body>
+</html>

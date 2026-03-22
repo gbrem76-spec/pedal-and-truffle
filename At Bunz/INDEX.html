@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedal & Truffle — Project Files</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --truffle:#2c1f12; --gold:#c49a3c; --gold-pale:#e8cc80;
+  --parchment:#ede6d6; --warm-white:#faf8f4; --mist:#9a8878;
+  --bark:#4a3522;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Jost",sans-serif;background:var(--warm-white);color:var(--truffle);min-height:100vh;}
+
+header{background:var(--truffle);padding:52px 60px 44px;position:relative;overflow:hidden;}
+header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-pale),var(--gold));}
+.header-label{font-size:.58rem;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-pale);margin-bottom:14px;display:block;}
+header h1{font-family:"Playfair Display",serif;font-size:2.6rem;font-weight:400;color:#fff;line-height:1.15;}
+header h1 em{color:var(--gold-pale);font-style:italic;}
+header p{margin-top:12px;font-size:.82rem;font-weight:300;color:rgba(255,255,255,.55);letter-spacing:.05em;}
+
+main{max-width:900px;margin:0 auto;padding:52px 40px 80px;}
+
+.section-title{font-size:.58rem;font-weight:300;letter-spacing:.35em;text-transform:uppercase;color:var(--mist);margin-bottom:22px;padding-bottom:10px;border-bottom:1px solid rgba(196,154,60,.2);}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:44px;}
+
+.card{background:#fff;border:1px solid rgba(196,154,60,.15);border-radius:2px;padding:28px 26px 24px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;transition:all .25s ease;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold);transform:scaleY(0);transform-origin:bottom;transition:transform .3s ease;}
+.card:hover{box-shadow:0 8px 32px rgba(44,31,18,.1);border-color:rgba(196,154,60,.4);transform:translateY(-2px);}
+.card:hover::before{transform:scaleY(1);}
+
+.card-icon{font-size:1.6rem;line-height:1;}
+.card-title{font-family:"Playfair Display",serif;font-size:1.05rem;font-weight:400;color:var(--truffle);}
+.card-desc{font-size:.75rem;font-weight:300;color:var(--mist);line-height:1.6;}
+.card-badge{display:inline-block;font-size:.52rem;font-weight:400;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;background:rgba(196,154,60,.12);color:var(--gold);border-radius:2px;margin-top:auto;align-self:flex-start;}
+.card-badge.primary{background:var(--gold);color:#fff;}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:44px;}
+.info-card{background:#fff;border:1px solid rgba(196,154,60,.15);border-radius:2px;padding:22px 24px;}
+.info-card h3{font-family:"Playfair Display",serif;font-size:.95rem;font-weight:400;color:var(--bark);margin-bottom:10px;}
+.info-card ul{list-style:none;padding:0;}
+.info-card li{font-size:.75rem;font-weight:300;color:var(--mist);padding:4px 0;border-bottom:1px solid rgba(196,154,60,.08);display:flex;align-items:center;gap:8px;}
+.info-card li:last-child{border-bottom:none;}
+.info-card li::before{content:'→';color:var(--gold);font-size:.65rem;}
+
+.status-row{display:flex;align-items:center;gap:8px;margin-bottom:30px;padding:14px 20px;background:rgba(196,154,60,.06);border:1px solid rgba(196,154,60,.2);border-radius:2px;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#4a9d5a;flex-shrink:0;}
+.status-text{font-size:.72rem;font-weight:300;letter-spacing:.08em;color:var(--bark);}
+.status-text strong{font-weight:500;color:var(--truffle);}
+
+footer{text-align:center;padding:32px;font-size:.65rem;font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:var(--mist);border-top:1px solid rgba(196,154,60,.12);}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-label">Project Deliverables</span>
+  <h1>Pedal &amp; Truffle<br><em>Brand &amp; Website Project</em></h1>
+  <p>E-Bike Tours · Bungendore to Nowra · Based in Mongarlowe NSW · Built March 2026</p>
+</header>
+
+<main>
+
+  <div class="status-row">
+    <div class="status-dot"></div>
+    <span class="status-text"><strong>All deliverables complete</strong> &nbsp;·&nbsp; Website · Logos · Photo Library · Reference Guide</span>
+  </div>
+
+  <!-- PRIMARY FILES -->
+  <div class="section-title">Primary Deliverables</div>
+  <div class="card-grid">
+
+    <a class="card" href="pedal-and-truffle.html">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">Main Website</div>
+      <div class="card-desc">Complete single-page website — hero, route, gallery, pricing, FAQ and booking CTA. 9 live photo locations embedded.</div>
+      <span class="card-badge primary">Open Website</span>
+    </a>
+
+    <a class="card" href="pedal-and-truffle-logos.html">
+      <div class="card-icon">✦</div>
+      <div class="card-title">Logo Concepts</div>
+      <div class="card-desc">Three brand logo concepts on dark background. Concept 2 (Elegant Wordmark) selected and built into the website.</div>
+      <span class="card-badge">View Logos</span>
+    </a>
+
+    <a class="card" href="photo-sources.html">
+      <div class="card-icon">📷</div>
+      <div class="card-title">Photo Reference</div>
+      <div class="card-desc">All 9 verified Wikimedia Commons photo URLs with location labels, source credits, and status badges.</div>
+      <span class="card-badge">View Sources</span>
+    </a>
+
+  </div>
+
+  <!-- BRAND DETAILS -->
+  <div class="section-title">Brand System</div>
+  <div class="info-grid">
+
+    <div class="info-card">
+      <h3>Colour Palette</h3>
+      <ul>
+        <li>Truffle Dark &nbsp;<code style="font-size:.68rem;background:rgba(44,31,18,.08);padding:1px 5px;">#2c1f12</code></li>
+        <li>Gold &nbsp;<code style="font-size:.68rem;background:rgba(196,154,60,.12);padding:1px 5px;">#c49a3c</code></li>
+        <li>Gold Pale &nbsp;<code style="font-size:.68rem;background:rgba(232,204,128,.15);padding:1px 5px;">#e8cc80</code></li>
+        <li>Parchment &nbsp;<code style="font-size:.68rem;background:rgba(237,230,214,.5);padding:1px 5px;">#ede6d6</code></li>
+        <li>Warm White &nbsp;<code style="font-size:.68rem;background:rgba(250,248,244,.8);padding:1px 5px;">#faf8f4</code></li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>Typography</h3>
+      <ul>
+        <li>Playfair Display — Headings &amp; Display</li>
+        <li>EB Garamond — Body &amp; Descriptions</li>
+        <li>Jost — Labels, Caps &amp; UI</li>
+      </ul>
+      <h3 style="margin-top:16px;">Logo</h3>
+      <ul>
+        <li>Concept 2 — Elegant Wordmark</li>
+        <li>Inline SVG with gold gradient rules</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>Tour Route</h3>
+      <ul>
+        <li>Start: Bungendore Train Station</li>
+        <li>Stop 1: Braidwood Heritage Town</li>
+        <li>Overnight: Charley's Forest Truffles, Mongarlowe</li>
+        <li>Stop 2: Budawang Ranges</li>
+        <li>Finish: Nowra</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>Placeholder Details to Update</h3>
+      <ul>
+        <li>Email: hello@pedal-and-truffle.com.au</li>
+        <li>Phone: +61 400 000 000</li>
+        <li>ABN: pending</li>
+        <li>Pricing: $XXX per person</li>
+        <li>Register domain name</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- PHOTO LIBRARY -->
+  <div class="section-title">Photo Library — 9 Verified Images</div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-title" style="font-size:.85rem;">Morton NP · Hindmarsh Lookout</div>
+      <div class="card-desc">Hero background + gallery cell 1 · Wikimedia Commons CC-BY-SA</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="font-size:.85rem;">Bungendore · Royal Hotel</div>
+      <div class="card-desc">Tour start town · Gallery cell 2 · Wikimedia Commons CC-BY</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="font-size:.85rem;">Tianjara Falls · Morton NP</div>
+      <div class="card-desc">Gallery cell 3 (tall feature) · Wikimedia Commons Public Domain</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="font-size:.85rem;">Braidwood Courthouse</div>
+      <div class="card-desc">Heritage town stop · Gallery cell 4 · Wikimedia Commons CC-BY-SA</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="font-size:.85rem;">Mongarlowe River Bridge</div>
+      <div class="card-desc">Overnight stop + Stay section · Gallery cell 5 · Wikimedia Commons CC-BY-SA</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="font-size:.85rem;">Budawang Ranges · Pigeon House</div>
+      <div class="card-desc">Experience section + Gallery cell 6 · Wikimedia Commons CC-BY-SA</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="font-size:.85rem;">Fitzroy Falls · Southern Highlands</div>
+      <div class="card-desc">Gallery cell 7 · Wikimedia Commons CC-BY-SA</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="font-size:.85rem;">Cambewarra Lookout · Near Nowra</div>
+      <div class="card-desc">Gallery cell 8 · Wikimedia Commons CC-BY-SA</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="font-size:.85rem;">Tianjara Creek · Gorge Country</div>
+      <div class="card-desc">Gallery cell 9 · Wikimedia Commons CC-BY-SA</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>Pedal &amp; Truffle &nbsp;·&nbsp; Built March 2026 &nbsp;·&nbsp; Mongarlowe NSW Australia</footer>
+
+</body>
+</html>
